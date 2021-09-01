@@ -1,0 +1,464 @@
+
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+ 
+    <title>Vue init</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script> 
+    <style>
+      .bold{
+          font-weight: bold;
+      }
+      .red {
+          color:red;
+      }
+
+      .color{
+        color:red;
+    }
+    .text-bold{
+        font-weight: bold;
+    }
+
+    </style>
+  
+  
+  
+  </head>
+  <body>
+
+    <div class="app20">
+      <select v-model="select">
+          <option disabled>請選擇</option>
+          <option v-for="item in dataArray" :value="item">{{item}}</option>
+      </select>
+  </div>
+
+    <script>
+    var app20 = new Vue({
+        el:'.app20',
+        data:{
+            dataArray:['Leo','Perter','Harry'],
+						selected:''
+        }
+    });
+</script>
+
+    <div class="app19">
+      <div style="width:100px;height:100px;background-color: red;"@click.capture="show('box1')">
+          <div style="width:50px;height:50px;background-color:black;"@click.capture="show('box2')">
+              <div style="width:25px;height:25px;background-color:green;"@click.stop="show('box3')">
+              </div>
+          </div>
+      </div>
+<hr>
+      <div style="width:100px;height:100px;background-color: red;"@click.capture="show('box1')">
+        <div style="width:50px;height:50px;background-color:black;"@click.stop="show('box2')">
+            <div style="width:25px;height:25px;background-color:green;"@click.stop="show('box3')">
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <hr>
+
+
+
+  <script>
+    var app19 = new Vue({
+        el:'.app19',
+        data:{
+        },
+        methods:{ 
+            show: function(item){
+                console.log(item);
+            }
+        }
+    });
+</script>
+
+    <div class="app18">
+      <ul>
+          <li v-for="item in dataArr">
+            {{item.name}}目前積分{{item.score}}分，換算成{{item.money}}$ <input type="button" value="儲值" @click="save(item)"><input type="button" value="加分拉" @click="AddScore(item)">
+          </li>
+      </ul>
+  </div>
+
+
+  <script>
+ 
+    //  這是方法 1 -SStarr
+    var app = new Vue({
+            el:'.app18',
+            data:{
+                dataArr:[
+                    {
+                        name: 'Leo',
+                        money:200,
+                        score:20,
+                    },
+                    {
+                        name: 'Peter',
+                        money:600,
+                        score:30,
+                    },
+                    {
+                        name: 'Amy',
+                        money:500,
+                        score:10,
+                    }
+                ]
+            },
+            methods:{
+                save:function(item){
+                    item.money+=500;
+                },
+                AddScore:function(item){
+                    item.score+=10;
+                }
+            }
+        });
+    
+    
+    //  這是方法 2 -EEnd    
+    </script>
+
+  <hr>
+
+    <div id='app17'>
+      一般寫法:
+      <button @click="counter+=1">{{counter}}</button>
+      <button @click="counter+=1">{{counter}}</button>
+      元件寫法：
+      <counter></counter>
+      <counter></counter>
+  </div>
+
+    <hr>
+
+    <div id=app15>
+      <p :class="['color','text-bold']">陣列寫法1</p>
+      <p :class="classArray">陣列寫法2</p>
+      <input type="checkbox" value="color" v-model="classArray"></input>
+      <input type="checkbox" value="text-bold" v-model="classArray"></input>
+  </div>
+
+  <hr> 
+
+    <div id=app14>
+      <p :class="{'color':isColorRed,'text-bold':isTextBold}">物件寫法1</p>
+      <button @click="isColorRed=!isColorRed">變紅</button>
+      <button @click="isTextBold=!isTextBold">變粗</button>
+      <p :class="classObject">物件寫法2</p>
+      <button @click="classObject.color=!classObject.color">變紅</button>
+      <button @click="classObject['text-bold']=!classObject['text-bold']">變粗</button>
+  </div>
+ 
+  <hr>
+
+    <div id=app13>
+      {{number1+number2}} <br>
+      {{text1+text2}}     <br>
+      {{number1+number2}} <br>
+      {{text1.split('').reverse().join('')}} <br>
+    </div>
+
+  <br>
+      <hr>
+
+    <div id="app12">
+      <a href="https://www.google.com/?hl=zh_tw" v-on:click.prevent='cl1'>v-on:</a> <br>
+      <a href="https://www.google.com/?hl=zh_tw" @click.prevent='cl1'>@</a> <br>
+      <img v-bind:src="url" alt="">
+      <img :src="url" alt="">
+  </div>
+
+  <br>
+      <hr>
+
+  <div id=app11>
+      <a href="https://www.google.com/?hl=zh_tw" v-on:click='show'>點擊</a>
+  </div
+
+
+  <div id="D1-9">
+      <br>
+      <hr>
+          DAY1~ 9 :
+        <!-- <noscript>
+          <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+        </noscript> -->
+        <div id="app1">
+            {{text}}
+        </div>
+
+        <hr>
+
+
+          <div id="app2">
+            <p>不會{{message}}取代</p>
+            <p v-text="message" >被取代</p>
+            <p v-html="message" >被取代</p>
+          </div>
+
+
+          <hr>
+
+
+          <div class="app3">
+            輸入：<input type="text" v-model="message">
+            
+            {{message}}
+          </div>
+
+          <hr>
+          <div id=app4>
+            全班成績：
+            <ul>
+                <li v-for="(item,index) in test">{{index}} .{{item.name}} 得分:{{item.score}}</li>
+            </ul>
+            不及格：
+            <ul>
+                <li v-for="(item,index) in test" v-if="item.score<60">{{index}} .{{item.name}} 得分:{{item.score}}</li>
+            </ul>
+        </div>
+
+
+
+        <hr>
+        <div class="app5">
+          <input type="checkbox" v-model="checkbox">吃晚餐<br>
+          喜歡吃什麼肉？？
+          <input type="checkbox" v-model="checkboxarray" value="chicken">雞肉
+          <input type="checkbox" v-model="checkboxarray" value="beef">牛肉
+          <input type="checkbox" v-model="checkboxarray" value="pork">豬肉
+      </div>
+
+
+
+      <hr>
+      <div class="app6">
+        喜歡吃什麼肉？？
+        <input type="radio" v-model="radio" value="chicken">雞肉
+        <input type="radio" v-model="radio" value="beef">牛肉
+        <input type="radio" v-model="radio" value="pork">豬肉
+    </div>
+
+
+    <hr>
+    <div  class="app7">
+      喜歡吃什麼肉？？
+      <select v-model="select">
+          <option disabled>-- 請選擇 --</option>
+          <option value="chicken">雞肉</option>
+          <option value="pork">豬肉</option>
+          <option value="beef">牛肉</option>
+      </select>
+    </div>
+        <!-- built files will be auto injected -->
+
+        <div class="app8" >
+          <img v-bind:src="url" alt="">
+      </div>
+
+      <hr>
+      <div class="app9">
+        <p v-bind:class="{'red':isRed,'bold':isBold}">Hello Vue</p>
+        <input type="checkbox" v-model="isRed">紅色
+        <input type="checkbox" v-model="isBold">變粗
+    </div> 
+    <hr>
+    <div class="app10">
+      {{text}}
+      <button v-on:click="reverse">反轉字串</button>
+    </div>
+
+</div>
+
+  </body>
+  
+  
+<script>
+
+//  這是方法 1 -SS
+
+Vue.component('counter',{
+        data:function(){
+            return{
+                counter: 0
+            } 
+        },
+        template:`
+        <button @click="counter+=1">{{counter}}</button>
+        `
+    });
+    var app17 = new Vue({
+        el: '#app17',
+        data:{
+            counter: 0
+        }
+    })
+
+
+//  這是方法 1 -EEnd    
+
+    var app16 = new Vue({
+      el: '#app16',
+            data:{
+                classArray:[]
+            }
+        })
+ 
+    var app15 = new Vue({
+      el: '#app15',
+            data:{
+                classArray:[]
+            }
+        })
+
+    var app14 = new Vue({
+            el: '#app14',
+            data:{
+                isColorRed:true,
+                isTextBold:true,
+                classObject:{
+                    'color':true,
+                    'text-bold':true
+                }
+            }
+        })
+ 
+    var app13 = new Vue({
+            el: '#app13',
+            data:{
+                number1:1,
+                number2:2,
+                text1:'Hello',
+                text2:'Vue'
+            }
+        })
+
+    var app12 = new Vue({
+            el: '.app12',
+            data:{
+                url:'http://img.ewebweb.com/uploads/20190614/14/1560492017-TUpfOhVQro.jpg'
+            },
+            methods: {
+                cl1:function(){
+                    console.log('點擊成功');
+                }
+            }
+        })
+
+    var app11 = new Vue({
+            el: '.app11',
+            methods: {
+                show:function(event){
+                    console.log(event)
+                }
+            }
+        })
+ 
+    var app1 = new Vue({
+            el:'#app1',
+            data:{
+                text:'Hello World'
+            }  
+    });
+
+    var app2 = new Vue({
+            el:'#app2', 
+            data:{
+            message: '<a href="#">Hello Vue</a>',
+        }
+    });
+
+    var app3 = new Vue({
+            el:'.app3', 
+            data:{
+            message: '',
+        }
+    });
+
+    var app4 = new Vue({
+        el: '#app4',
+        data:{
+            test:[
+                {
+                    name: 'Leo',
+                    score: 44
+                },
+                {
+                    name: 'Amy',
+                    score: 89
+                },
+                {
+                    name: 'Perter',
+                    score: 59
+                },
+                {
+                    name: 'Leo',
+                    score: 90
+                },
+            ]
+        }
+    });
+
+    var app5 = new Vue({
+        el:'.app5',
+        data:{
+            checkbox:'',
+            checkboxarray:[]
+        }
+    });
+
+    var app6 = new Vue({
+        el:'.app6',
+        data:{
+            radio:'',
+        }
+    });
+
+    var app７ = new Vue({
+        el:'.app7',
+        data:{
+            select:'',
+        }
+    });
+
+    var app8 = new Vue({
+        el:'.app8',
+        data:{
+            url:'https://i.imgur.com/S0wWwee.jpg',
+        }
+    });
+
+    var app9 = new Vue({
+        el:'.app9',
+        data:{
+            isRed:false,
+            isBold:false
+        }
+    });
+
+
+    var app10 = new Vue({
+        el:'.app10',
+        data:{
+            text:'1234'
+        },
+        methods: {
+            reverse:function (){
+              this.text=this.text.split('').reverse().join('');
+            }
+        }
+    });
+    
+
+</script>
+
+</html>

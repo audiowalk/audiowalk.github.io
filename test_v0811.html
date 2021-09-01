@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link rel="icon" type="image/png" href="assets/img/favicon.png"/>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+
+
+       <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <title>看箭，你的厲害！</title>
+        <link rel="shortcut icon" href="https://i.imgur.com/wAi46rS.png" />
+        <link rel="bookmark" href="https://i.imgur.com/wAi46rS.png" />
+
+
+    <link rel="image_src" href="https://i.imgur.com/wAi46rS.png" />
+    <meta property="og:image"       content="https://i.imgur.com/wAi46rS.png" />
+
+      <meta name="description" content="弓箭-保齡球 線上計分板">
+      <meta name="keywords" content="保齡球, 射箭, 線上計分板">
+      <meta name="author" content="Shun">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        .img-replace {
+          /* replace text with an image */
+          display: inline-block;
+          overflow: hidden;
+          text-indent: 100%;
+          color: transparent;
+          white-space: nowrap;
+        }
+        .bts-popup {
+          position: fixed;
+          left: 0;
+          top: 0;
+          height: 100%;
+          width: 100%;
+          background-color: rgba(0, 0, 0, 0.5);
+          opacity: 0;
+          visibility: hidden;
+          -webkit-transition: opacity 0.3s 0s, visibility 0s 0.3s;
+          -moz-transition: opacity 0.3s 0s, visibility 0s 0.3s;
+          transition: opacity 0.3s 0s, visibility 0s 0.3s;
+        }
+        .bts-popup.is-visible {
+          opacity: 1;
+          visibility: visible;
+          -webkit-transition: opacity 0.3s 0s, visibility 0s 0s;
+          -moz-transition: opacity 0.3s 0s, visibility 0s 0s;
+          transition: opacity 0.3s 0s, visibility 0s 0s;
+        }
+
+        .bts-popup-container {
+          position: relative;
+
+          max-width: 400px;
+          margin: 2vh 12vw  ;
+          background: #9c8203;
+          border-radius: none;
+          text-align: center;
+          box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+          -webkit-transform: translateY(-40px);
+          -moz-transform: translateY(-40px);
+          -ms-transform: translateY(-40px);
+          -o-transform: translateY(-40px);
+          transform: translateY(-40px);
+          /* Force Hardware Acceleration in WebKit */
+          -webkit-backface-visibility: hidden;
+          -webkit-transition-property: -webkit-transform;
+          -moz-transition-property: -moz-transform;
+          transition-property: transform;
+          -webkit-transition-duration: 0.3s;
+          -moz-transition-duration: 0.3s;
+          transition-duration: 0.3s;
+        }
+        .bts-popup-container img {
+          padding: 20px 0 0 0;
+        }
+        .bts-popup-container p {
+            color: white;
+          padding: 10px 40px;
+        }
+        .bts-popup-container .bts-popup-button {
+          padding: 5px 25px;
+          border: 2px solid white;
+            display: inline-block;
+          margin-bottom: 10px;
+        }
+
+        .bts-popup-container a {
+          color: white;
+          text-decoration: none;
+          text-transform: uppercase;
+        }
+        .bts-popup-container .bts-popup-close {
+          position: absolute;
+          top: 8px;
+          right: 8px;
+          width: 30px;
+          height: 30px;
+        }
+        .bts-popup-container .bts-popup-close::before, .bts-popup-container .bts-popup-close::after {
+          content: '';
+          position: absolute;
+          top: 12px;
+          width: 16px;
+          height: 3px;
+          background-color: white;
+        }
+        .bts-popup-container .bts-popup-close::before {
+          -webkit-transform: rotate(45deg);
+          -moz-transform: rotate(45deg);
+          -ms-transform: rotate(45deg);
+          -o-transform: rotate(45deg);
+          transform: rotate(45deg);
+          left: 8px;
+        }
+        .bts-popup-container .bts-popup-close::after {
+          -webkit-transform: rotate(-45deg);
+          -moz-transform: rotate(-45deg);
+          -ms-transform: rotate(-45deg);
+          -o-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+          right: 6px;
+          top: 13px;
+        }
+        .is-visible .bts-popup-container {
+          -webkit-transform: translateY(0);
+          -moz-transform: translateY(0);
+          -ms-transform: translateY(0);
+          -o-transform: translateY(0);
+          transform: translateY(0);
+        }
+        @media only screen and (min-width: 1170px) {
+          .bts-popup-container {
+            margin: 8em auto;
+          }
+        }
+
+    </style>
+
+    <style>
+        /* width */
+        ::-webkit-scrollbar {
+          width: 20px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+          box-shadow: inset 0 0 5px grey;
+          border-radius: 10px;
+          border-width:3px;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+          background: black;
+          border-radius: 10px;
+          height:40px
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+          background: #b30000;
+        }
+    </style>
+
+</head>
+
+<body class="flex flex-col justify-center w-full h-full bg-gray-100 ">
+    <form id="ddasd">
+        <!-- Component Start -->
+        <div class="flex flex-col flex-grow
+                    max-w-xl bg-white shadow-xl overflow-hidden">
+                <div class="bg-yellow-300 pt-4 text-center ">
+
+
+                        <div class="app20">
+      <select v-model="select">
+          <option disabled>請選擇</option>
+          <option v-for="item in dataArray" :value="item">{{item}}</option>
+      </select>
+  </div>
+
+
+
+                    <span class="text-2xl font-semibold inline-block py-1 px-4 uppercase
+                                 rounded text-yellow-600 bg-yellow-200 uppercase last:mr-0 mr-1">
+                      弓箭保齡球線上計分表
+                    </span>
+
+                    <div class="flex justify-center items-center ">
+
+                    <!--actual component start-->
+                        <div x-data="setup()">
+                            <ul class="flex   my-4">
+                                <template x-for="(tab, index) in tabs" :key="index">
+                                    <li class="cursor-pointer py-1.5 px-2 rounded-3xl transition"
+                                        :class="activeTab===index ? 'bg-yellow-500 text-white' : ' text-gray-800'" @click="activeTab = index"
+                                        x-text="tab"></li>
+                                </template>
+                            </ul>
+
+                        <div class="text-center mx-auto shadow-md ">
+                            <div x-show="activeTab===0">
+                                                                  <!--      Content 1-->
+                                  <div class="flex flex-col my-3  bg-yellow-100 rounded-2xl">
+                                      <div class="flex text-base" >
+                                        <div class="flex flex-nowrap lg:ml-40 md:ml-20 my-3 " >
+                                          <div class="inline-block px-3">
+                                              <div class=" mb-2">
+                                                  <span class="text-xs w-1/2 font-bold inline-block
+                                                               py-3 pl-0 text-xl text-center grid-rows-1
+                                                               capitalize rounded text-gray-100
+                                                               bg-gray-900 last:mr-0 mr-1"> P1 目前總分 : </span>
+    <!--                                              <span class="text-xs w-1/3 font-bold inline-block-->
+    <!--                                                           py-3 px-2 text-xl text-center grid-rows-1-->
+    <!--                                                           capitalize rounded text-gray-100-->
+    <!--                                                           bg-yellow-900 last:mr-0 mr-1"> 目前總分 </span>-->
+                                                  <span class="text-xs w-1/3 font-bold inline-block
+                                                               py-3 px-2 text-xl text-center grid-rows-1
+                                                               capitalize rounded text-yellow-700
+                                                               bg-yellow-300 last:mr-0 mr-1"> P1 </span>
+
+    <!--                                                    <input  type='text' id='id_exss'  disabled="disabled"  placeholder=" P1 積分 "-->
+    <!--                                                      class="  border-2 text-2xl text-center grid-rows-1-->
+    <!--                                                               border-yellow-400 bg-yellow-200 p-2-->
+    <!--                                                               rounded-md focus:outline-none focus:ring-2 ring-blue-200"/>-->
+                                              </div>
+                                              <div class="grid grid-cols-5 gap-0.5 justify-items-stretch mb-2">  <!--gap-0.5-->
+                                                 <div class = "grid-rows-1 ">
+                                                     <div class="w-auto h-auto max-w-xs
+                                                                border-gray-900 rounded shadow-md bg-white
+                                                                hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                        <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                            <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 1 </div>
+                                                            <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-100 "> ?? </div>
+                                                            <div class = "grid-rows-3 bg-gray-0 justify-center border-l-2 border-b-2  border-gray-900 "> ?? </div>
+                                                            <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> 88 </div>
+                                                        </div>
+                                                    </div>
+                                                 </div>
+                                                 <div class = "grid-rows-1">
+                                                     <div class="w-auto h-auto max-w-xs overflow-hidden
+                                                                border-gray-900 rounded shadow-md bg-white
+                                                                hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                        <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                            <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 2 </div>
+                                                            <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 px-2 "> ?? </div>
+                                                            <div class = "grid-rows-3 bg-gray-0 justify-center border-l-2 border-b-2  border-gray-900 "> ?? </div>
+                                                            <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> 88 </div>
+                                                        </div>
+                                                    </div>
+                                                 </div>
+                                                 <div class = "grid-rows-1">
+                                                    <div class="w-auto h-auto max-w-xs overflow-hidden
+                                                            border-gray-900 rounded shadow-md bg-white
+                                                            hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                            <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                                <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 3 </div>
+                                                                <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 px-2 "> ?? </div>
+                                                                <div class = "grid-rows-3 bg-gray-0 justify-center border-l-2 border-b-2 border-gray-900 "> ?? </div>
+                                                                <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> 88 </div>
+                                                            </div>
+                                                    </div>
+                                                 </div>
+                                                 <div class = "grid-rows-1">
+                                                     <div class="w-auto h-auto max-w-xs overflow-hidden
+                                                                border-gray-900 rounded shadow-md bg-white
+                                                                hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                        <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                            <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 4 </div>
+                                                            <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 px-2 "> ?? </div>
+                                                            <div class = "grid-rows-3 bg-gray-0 justify-center border-l-2 border-b-2 border-gray-900 "> ?? </div>
+                                                            <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> 44 </div>
+                                                        </div>
+                                                    </div>
+                                                 </div>
+                                                 <div class = "grid-rows-1">
+                                                    <div class="w-auto h-auto max-w-xs overflow-hidden
+                                                            border-gray-900 rounded shadow-md bg-white
+                                                            hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                            <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                                <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 5 </div>
+                                                                <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 px-2 "> ?? </div>
+                                                                <div class = "grid-rows-3 bg-gray-0 justify-center border-l-2 border-b-2 border-gray-900 pt-0.5 "> ?? </div>
+                                                                <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> 88 </div>
+                                                            </div>
+                                                    </div>
+                                                 </div>
+                                              </div>
+                                              <div class="grid grid-cols-5 gap-0.5 justify-items-stretch ">  <!--gap-0.5-->
+                                                 <div class = "grid-rows-1">
+                                                     <div class="w-auto h-auto max-w-xs overflow-hidden
+                                                                border-gray-900 rounded shadow-md bg-white
+                                                                hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                        <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                            <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 6 </div>
+                                                            <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 px-2 "> ?? </div>
+                                                            <div class = "grid-rows-3 bg-gray-0 justify-center border-l-2 border-b-2 border-gray-900 pt-0.5 "> ?? </div>
+                                                            <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> 88 </div>
+                                                        </div>
+                                                    </div>
+                                                 </div>
+                                                 <div class = "grid-rows-1">
+                                                     <div class="w-auto h-auto max-w-xs overflow-hidden
+                                                                border-gray-900 rounded shadow-md bg-white
+                                                                hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                        <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                            <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 7 </div>
+                                                            <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 px-2 "> ?? </div>
+                                                            <div class = "grid-rows-3 bg-gray-0 justify-center border-l-2 border-b-2 border-gray-900 pt-0.5 "> ?? </div>
+                                                            <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> 88 </div>
+                                                        </div>
+                                                    </div>
+                                                 </div>
+                                                 <div class = "grid-rows-1">
+                                                    <div class="w-auto h-auto max-w-xs overflow-hidden
+                                                            border-gray-900 rounded shadow-md bg-white
+                                                            hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                            <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                                <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 8 </div>
+                                                                <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 px-2 "> ?? </div>
+                                                                <div class = "grid-rows-3 bg-gray-0 justify-center border-l-2 border-b-2 border-gray-900 pt-0.5 "> ?? </div>
+                                                                <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> 88 </div>
+                                                            </div>
+                                                    </div>
+                                                 </div>
+                                                 <div class = "grid-rows-1">
+                                                     <div class="w-auto h-auto max-w-xs overflow-hidden
+                                                                border-gray-900 rounded shadow-md bg-white
+                                                                hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                        <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                            <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 9 </div>
+                                                            <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 px-2 "> ?? </div>
+                                                            <div class = "grid-rows-2 bg-gray-0 justify-center border-l-2 border-b-2 border-gray-900 pt-0.5 "> ?? </div>
+                                                            <div class = "grid-rows-3 col-span-2 bg-gray-0 text-center pt-2 "> 88 </div>
+                                                        </div>
+                                                    </div>
+                                                 </div>
+                                                 <div class = "grid-rows-1">
+                                                    <div class="w-auto h-auto max-w-xs overflow-hidden
+                                                            border-gray-900 rounded shadow-md bg-white
+                                                            hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                            <div class="grid grid-cols-3  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                                <div class = "grid-rows-1 col-span-3  bg-gray-800 text-gray-100 text-center pt-2 "> 10 </div>
+                                                                <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0  "> ?? </div>
+                                                                <div class = "grid-rows-2 bg-gray-0 justify-center border-l-2 border-b-2 border-gray-900 pt-0.5 "> ?? </div>
+                                                                <div class = "grid-rows-2 bg-gray-0 justify-center border-l-2 border-b-2 border-gray-900 pt-0.5 "> ?? </div>
+                                                                <div class = "grid-rows-3 col-span-3 bg-gray-0 text-center pt-2 "> 88 </div>
+                                                            </div>
+                                                    </div>
+                                                 </div>
+                                              </div>
+                                          </div>
+
+                                          </div>
+                                      </div>
+                                  </div>
+                                                                  <!--      Content 2-->
+                                  <div class="flex flex-col my-3  bg-yellow-100 rounded-2xl">
+                                      <div class="flex text-base" >
+                                        <div class="flex flex-nowrap lg:ml-40 md:ml-20 my-3 " >
+                                          <div class="inline-block px-3">
+                                              <div class=" mb-2">
+                                                  <span class="text-xs w-1/2 font-bold inline-block
+                                                               py-3 pl-0 text-xl text-center grid-rows-1
+                                                               capitalize rounded text-gray-100
+                                                               bg-gray-900 last:mr-0 mr-1"> P2 目前總分 : </span>
+    <!--                                              <span class="text-xs w-1/3 font-bold inline-block-->
+    <!--                                                           py-3 px-2 text-xl text-center grid-rows-1-->
+    <!--                                                           capitalize rounded text-gray-100-->
+    <!--                                                           bg-yellow-900 last:mr-0 mr-1"> 目前總分 </span>-->
+                                                  <span class="text-xs w-1/3 font-bold inline-block
+                                                               py-3 px-2 text-xl text-center grid-rows-1
+                                                               capitalize rounded text-yellow-700
+                                                               bg-yellow-300 last:mr-0 mr-1"> P2 </span>
+
+    <!--                                                    <input  type='text' id='id_exss'  disabled="disabled"  placeholder=" P1 積分 "-->
+    <!--                                                      class="  border-2 text-2xl text-center grid-rows-1-->
+    <!--                                                               border-yellow-400 bg-yellow-200 p-2-->
+    <!--                                                               rounded-md focus:outline-none focus:ring-2 ring-blue-200"/>-->
+                                              </div>
+                                              <div class="grid grid-cols-5 gap-0.5 justify-items-stretch mb-2">  <!--gap-0.5-->
+                                                 <div class = "grid-rows-1 ">
+                                                     <div class="w-auto h-auto max-w-xs
+                                                                border-gray-900 rounded shadow-md bg-white
+                                                                hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                        <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                            <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 1 </div>
+                                                            <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-100 "> ?? </div>
+                                                            <div class = "grid-rows-3 bg-gray-0 justify-center border-l-2 border-b-2  border-gray-900 "> ?? </div>
+                                                            <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> 88 </div>
+                                                        </div>
+                                                    </div>
+                                                 </div>
+                                                 <div class = "grid-rows-1">
+                                                     <div class="w-auto h-auto max-w-xs overflow-hidden
+                                                                border-gray-900 rounded shadow-md bg-white
+                                                                hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                        <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                            <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 2 </div>
+                                                            <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 px-2 "> ?? </div>
+                                                            <div class = "grid-rows-3 bg-gray-0 justify-center border-l-2 border-b-2  border-gray-900 "> ?? </div>
+                                                            <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> 88 </div>
+                                                        </div>
+                                                    </div>
+                                                 </div>
+                                                 <div class = "grid-rows-1">
+                                                    <div class="w-auto h-auto max-w-xs overflow-hidden
+                                                            border-gray-900 rounded shadow-md bg-white
+                                                            hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                            <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                                <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 3 </div>
+                                                                <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 px-2 "> ?? </div>
+                                                                <div class = "grid-rows-3 bg-gray-0 justify-center border-l-2 border-b-2 border-gray-900 "> ?? </div>
+                                                                <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> 88 </div>
+                                                            </div>
+                                                    </div>
+                                                 </div>
+                                                 <div class = "grid-rows-1">
+                                                     <div class="w-auto h-auto max-w-xs overflow-hidden
+                                                                border-gray-900 rounded shadow-md bg-white
+                                                                hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                        <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                            <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 4 </div>
+                                                            <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 px-2 "> ?? </div>
+                                                            <div class = "grid-rows-3 bg-gray-0 justify-center border-l-2 border-b-2 border-gray-900 "> ?? </div>
+                                                            <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> 44 </div>
+                                                        </div>
+                                                    </div>
+                                                 </div>
+                                                 <div class = "grid-rows-1">
+                                                    <div class="w-auto h-auto max-w-xs overflow-hidden
+                                                            border-gray-900 rounded shadow-md bg-white
+                                                            hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                            <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                                <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 5 </div>
+                                                                <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 px-2 "> ?? </div>
+                                                                <div class = "grid-rows-3 bg-gray-0 justify-center border-l-2 border-b-2 border-gray-900 pt-0.5 "> ?? </div>
+                                                                <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> 88 </div>
+                                                            </div>
+                                                    </div>
+                                                 </div>
+                                              </div>
+                                              <div class="grid grid-cols-5 gap-0.5 justify-items-stretch ">  <!--gap-0.5-->
+                                                 <div class = "grid-rows-1">
+                                                     <div class="w-auto h-auto max-w-xs overflow-hidden
+                                                                border-gray-900 rounded shadow-md bg-white
+                                                                hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                        <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                            <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 6 </div>
+                                                            <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 px-2 "> ?? </div>
+                                                            <div class = "grid-rows-3 bg-gray-0 justify-center border-l-2 border-b-2 border-gray-900 pt-0.5 "> ?? </div>
+                                                            <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> 88 </div>
+                                                        </div>
+                                                    </div>
+                                                 </div>
+                                                 <div class = "grid-rows-1">
+                                                     <div class="w-auto h-auto max-w-xs overflow-hidden
+                                                                border-gray-900 rounded shadow-md bg-white
+                                                                hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                        <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                            <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 7 </div>
+                                                            <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 px-2 "> ?? </div>
+                                                            <div class = "grid-rows-3 bg-gray-0 justify-center border-l-2 border-b-2 border-gray-900 pt-0.5 "> ?? </div>
+                                                            <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> 88 </div>
+                                                        </div>
+                                                    </div>
+                                                 </div>
+                                                 <div class = "grid-rows-1">
+                                                    <div class="w-auto h-auto max-w-xs overflow-hidden
+                                                            border-gray-900 rounded shadow-md bg-white
+                                                            hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                            <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                                <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 8 </div>
+                                                                <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 px-2 "> ?? </div>
+                                                                <div class = "grid-rows-3 bg-gray-0 justify-center border-l-2 border-b-2 border-gray-900 pt-0.5 "> ?? </div>
+                                                                <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> 88 </div>
+                                                            </div>
+                                                    </div>
+                                                 </div>
+                                                 <div class = "grid-rows-1">
+                                                     <div class="w-auto h-auto max-w-xs overflow-hidden
+                                                                border-gray-900 rounded shadow-md bg-white
+                                                                hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                        <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                            <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 9 </div>
+                                                            <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 px-2 "> ?? </div>
+                                                            <div class = "grid-rows-2 bg-gray-0 justify-center border-l-2 border-b-2 border-gray-900 pt-0.5 "> ?? </div>
+                                                            <div class = "grid-rows-3 col-span-2 bg-gray-0 text-center pt-2 "> 88 </div>
+                                                        </div>
+                                                    </div>
+                                                 </div>
+                                                 <div class = "grid-rows-1">
+                                                    <div class="w-auto h-auto max-w-xs overflow-hidden
+                                                            border-gray-900 rounded shadow-md bg-white
+                                                            hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                            <div class="grid grid-cols-3  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                                <div class = "grid-rows-1 col-span-3  bg-gray-800 text-gray-100 text-center pt-2 "> 10 </div>
+                                                                <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0  "> ?? </div>
+                                                                <div class = "grid-rows-2 bg-gray-0 justify-center border-l-2 border-b-2 border-gray-900 pt-0.5 "> ?? </div>
+                                                                <div class = "grid-rows-2 bg-gray-0 justify-center border-l-2 border-b-2 border-gray-900 pt-0.5 "> ?? </div>
+                                                                <div class = "grid-rows-3 col-span-3 bg-gray-0 text-center pt-2 "> 88 </div>
+                                                            </div>
+                                                    </div>
+                                                 </div>
+                                              </div>
+                                          </div>
+
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <!--      Content 3-->
+                                  <div class="flex flex-col my-3  bg-yellow-100 rounded-2xl">
+                                      <div class="flex text-base" >
+                                        <div class="flex flex-nowrap lg:ml-40 md:ml-20 my-3 " >
+                                          <div class="inline-block px-3">
+                                              <div class=" mb-2">
+                                                  <span class="text-xs w-1/2 font-bold inline-block
+                                                               py-3 pl-0 text-xl text-center grid-rows-1
+                                                               capitalize rounded text-gray-100
+                                                               bg-gray-900 last:mr-0 mr-1"> P3 目前總分 : </span>
+                                                  <span class="text-xs w-1/3 font-bold inline-block
+                                                               py-3 px-2 text-xl text-center grid-rows-1
+                                                               capitalize rounded text-yellow-700
+                                                               bg-yellow-300 last:mr-0 mr-1"> P3 </span>
+
+    <!--                                                    <input  type='text' id='id_exss'  disabled="disabled"  placeholder=" P1 積分 "-->
+    <!--                                                      class="  border-2 text-2xl text-center grid-rows-1-->
+    <!--                                                               border-yellow-400 bg-yellow-200 p-2-->
+    <!--                                                               rounded-md focus:outline-none focus:ring-2 ring-blue-200"/>-->
+                                              </div>
+                                              <div class="grid grid-cols-5 gap-0.5 justify-items-stretch mb-2">  <!--gap-0.5-->
+                                                 <div class = "grid-rows-1 ">
+                                                     <div class="w-auto h-auto max-w-xs
+                                                                border-gray-900 rounded shadow-md bg-white
+                                                                hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                        <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                            <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 1 </div>
+                                                            <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-100 "> ?? </div>
+                                                            <div class = "grid-rows-3 bg-gray-0 justify-center border-l-2 border-b-2  border-gray-900 "> ?? </div>
+                                                            <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> 88 </div>
+                                                        </div>
+                                                    </div>
+                                                 </div>
+                                                 <div class = "grid-rows-1">
+                                                     <div class="w-auto h-auto max-w-xs overflow-hidden
+                                                                border-gray-900 rounded shadow-md bg-white
+                                                                hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                        <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                            <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 2 </div>
+                                                            <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 px-2 "> ?? </div>
+                                                            <div class = "grid-rows-3 bg-gray-0 justify-center border-l-2 border-b-2  border-gray-900 "> ?? </div>
+                                                            <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> 88 </div>
+                                                        </div>
+                                                    </div>
+                                                 </div>
+                                                 <div class = "grid-rows-1">
+                                                    <div class="w-auto h-auto max-w-xs overflow-hidden
+                                                            border-gray-900 rounded shadow-md bg-white
+                                                            hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                            <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                                <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 3 </div>
+                                                                <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 px-2 "> ?? </div>
+                                                                <div class = "grid-rows-3 bg-gray-0 justify-center border-l-2 border-b-2 border-gray-900 "> ?? </div>
+                                                                <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> 88 </div>
+                                                            </div>
+                                                    </div>
+                                                 </div>
+                                                 <div class = "grid-rows-1">
+                                                     <div class="w-auto h-auto max-w-xs overflow-hidden
+                                                                border-gray-900 rounded shadow-md bg-white
+                                                                hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                        <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                            <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 4 </div>
+                                                            <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 px-2 "> ?? </div>
+                                                            <div class = "grid-rows-3 bg-gray-0 justify-center border-l-2 border-b-2 border-gray-900 "> ?? </div>
+                                                            <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> 44 </div>
+                                                        </div>
+                                                    </div>
+                                                 </div>
+                                                 <div class = "grid-rows-1">
+                                                    <div class="w-auto h-auto max-w-xs overflow-hidden
+                                                            border-gray-900 rounded shadow-md bg-white
+                                                            hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                            <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                                <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 5 </div>
+                                                                <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 px-2 "> ?? </div>
+                                                                <div class = "grid-rows-3 bg-gray-0 justify-center border-l-2 border-b-2 border-gray-900 pt-0.5 "> ?? </div>
+                                                                <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> 88 </div>
+                                                            </div>
+                                                    </div>
+                                                 </div>
+                                              </div>
+                                              <div class="grid grid-cols-5 gap-0.5 justify-items-stretch ">  <!--gap-0.5-->
+                                                 <div class = "grid-rows-1">
+                                                     <div class="w-auto h-auto max-w-xs overflow-hidden
+                                                                border-gray-900 rounded shadow-md bg-white
+                                                                hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                        <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                            <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 6 </div>
+                                                            <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 px-2 "> ?? </div>
+                                                            <div class = "grid-rows-3 bg-gray-0 justify-center border-l-2 border-b-2 border-gray-900 pt-0.5 "> ?? </div>
+                                                            <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> 88 </div>
+                                                        </div>
+                                                    </div>
+                                                 </div>
+                                                 <div class = "grid-rows-1">
+                                                     <div class="w-auto h-auto max-w-xs overflow-hidden
+                                                                border-gray-900 rounded shadow-md bg-white
+                                                                hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                        <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                            <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 7 </div>
+                                                            <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 px-2 "> ?? </div>
+                                                            <div class = "grid-rows-3 bg-gray-0 justify-center border-l-2 border-b-2 border-gray-900 pt-0.5 "> ?? </div>
+                                                            <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> 88 </div>
+                                                        </div>
+                                                    </div>
+                                                 </div>
+                                                 <div class = "grid-rows-1">
+                                                    <div class="w-auto h-auto max-w-xs overflow-hidden
+                                                            border-gray-900 rounded shadow-md bg-white
+                                                            hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                            <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                                <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 8 </div>
+                                                                <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 px-2 "> ?? </div>
+                                                                <div class = "grid-rows-3 bg-gray-0 justify-center border-l-2 border-b-2 border-gray-900 pt-0.5 "> ?? </div>
+                                                                <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> 88 </div>
+                                                            </div>
+                                                    </div>
+                                                 </div>
+                                                 <div class = "grid-rows-1">
+                                                     <div class="w-auto h-auto max-w-xs overflow-hidden
+                                                                border-gray-900 rounded shadow-md bg-white
+                                                                hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                        <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                            <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 9 </div>
+                                                            <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 px-2 "> ?? </div>
+                                                            <div class = "grid-rows-2 bg-gray-0 justify-center border-l-2 border-b-2 border-gray-900 pt-0.5 "> ?? </div>
+                                                            <div class = "grid-rows-3 col-span-2 bg-gray-0 text-center pt-2 "> 88 </div>
+                                                        </div>
+                                                    </div>
+                                                 </div>
+                                                 <div class = "grid-rows-1">
+                                                    <div class="w-auto h-auto max-w-xs overflow-hidden
+                                                            border-gray-900 rounded shadow-md bg-white
+                                                            hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                                            <div class="grid grid-cols-3  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                                                <div class = "grid-rows-1 col-span-3  bg-gray-800 text-gray-100 text-center pt-2 "> 10 </div>
+                                                                <div class = "grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0  "> ?? </div>
+                                                                <div class = "grid-rows-2 bg-gray-0 justify-center border-l-2 border-b-2 border-gray-900 pt-0.5 "> ?? </div>
+                                                                <div class = "grid-rows-2 bg-gray-0 justify-center border-l-2 border-b-2 border-gray-900 pt-0.5 "> ?? </div>
+                                                                <div class = "grid-rows-3 col-span-3 bg-gray-0 text-center pt-2 "> 88 </div>
+                                                            </div>
+                                                    </div>
+                                                 </div>
+                                              </div>
+                                          </div>
+
+                                          </div>
+                                      </div>
+                                  </div>
+                            </div>
+
+
+                        </div>
+                            <div>
+                                <div x-show="activeTab===1">
+                                    <h1  class="flex lg:px-20 md:px-10 px-5 lg:mx-40 md:mx-20  sm:mx-1
+                                            font-bold text-4xl text-gray-800 h-96 py-16 bg-gray-200" >
+                                        尚未設定 P2
+                                      </h1>
+                                    </div>
+                                <div x-show="activeTab===2">
+                                    <h1  class="flex lg:px-20 md:px-10 px-5 lg:mx-40 md:mx-20  sm:mx-1
+                                            font-bold text-4xl text-gray-800 h-96 py-16 bg-gray-200" >
+                                        尚未設定 P3  </h1></div>
+                                <div x-show="activeTab===3">
+                                    <h1  class="flex lg:px-20 md:px-10 px-5 lg:mx-40 md:mx-20  sm:mx-1
+                                            font-bold text-4xl text-gray-800 h-96 py-16 bg-gray-200" >
+                                        尚未設定 P4  </h1></div>
+                                <div x-show="activeTab===4">
+                                    <h1  class="flex lg:px-20 md:px-10 px-5 lg:mx-40 md:mx-20  sm:mx-1
+                                            font-bold text-4xl text-gray-800 h-96 py-16 bg-gray-200" >
+                                        尚未設定 P5  </h1></div>
+                                <div x-show="activeTab===5">
+                                    <h1  class="flex lg:px-20 md:px-10 px-5 lg:mx-40 md:mx-20 sm:mx-1
+                                            font-bold text-4xl text-gray-800 h-96 py-16 bg-gray-200" >
+                                        尚未設定 P6  </h1></div>
+                                <div x-show="activeTab===6">
+                                    <h1  class="flex lg:px-20 md:px-10 px-5 lg:mx-40 md:mx-20 sm:mx-1
+                                            font-bold text-4xl text-gray-800 h-96 py-16 bg-gray-200" >
+                                        尚未設定 P7  </h1></div>
+                                <div x-show="activeTab===7">
+                                    <h1  class="flex lg:px-20 md:px-10 px-5 lg:mx-40 md:mx-20 sm:mx-1
+                                            font-bold text-4xl text-gray-800 h-96 py-16 bg-gray-200" >
+                                        尚未設定 P8  </h1></div>
+                                </div>
+
+                            </div>
+                            <!--actual component end-->
+                        </div>
+                    </div>
+                    <div class="flex flex-col flex-grow  bg-yellow-100  overflow-auto">  </div>
+                </div>
+        </div>
+        <!-- Component End  -->
+    </form>
+</body>
+
+ <script>
+    var app20 = new Vue({
+        el:'.app20',
+        data:{
+            dataArray:['Leo','Perter','Harry'],
+						selected:''
+        }
+    });
+</script>
+
+<script>
+	function setup() {
+    return {
+      activeTab: 0,
+      tabs: [
+          "P1",
+          "P2",
+          "P3",
+          "P4",
+          "P5",
+          "P6",
+          "P7",
+          "P8",
+      ]
+    };
+  };
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!--<script>-->
+<script>
+ $(document).ready(function() {
+      console.log('dom is readddy');
+      $('#ddasd').keyup(function() {
+
+        var SHOW_TTs;
+        var Temp_TTs_1 = 0;
+        var R1s1 = document.getElementById('R1s1').value;
+        var R1s2 = document.getElementById('R1s2').value;
+        var R1sA = document.getElementById('R1sA').value;
+
+        var R2s1 = document.getElementById('R2s1').value;
+        var R2s2 = document.getElementById('R2s2').value;
+        var R2sA = document.getElementById('R2sA').value;
+
+        var R3s1 = document.getElementById('R3s1').value;
+        var R3s2 = document.getElementById('R3s2').value;
+
+        var R4s1 = document.getElementById('R4s1').value;
+        var R4s2 = document.getElementById('R4s2').value;
+
+        var R5s1 = document.getElementById('R5s1').value;
+        var R5s2 = document.getElementById('R5s2').value;
+
+        var R6s1 = document.getElementById('R6s1').value;
+        var R6s2 = document.getElementById('R6s2').value;
+
+        var R7s1 = document.getElementById('R7s1').value;
+        var R7s2 = document.getElementById('R7s2').value;
+
+        var R8s1 = document.getElementById('R8s1').value;
+        var R8s2 = document.getElementById('R8s2').value;
+
+        var R9s1 = document.getElementById('R9s1').value;
+        var R9s2 = document.getElementById('R9s2').value;
+
+        var R10s1 = document.getElementById('R10s1').value;
+        var R10s2 = document.getElementById('R10s2').value;
+        var R10s3 = document.getElementById('R10s3').value;
+
+<!--        document.getElementById('id_xst').value =" 額外獎勵 下一次的分數"-->
+
+
+        <!--第十局-->
+        if( R1s1 && R1s2 && R2s1 && R2s2 && R3s1 && R3s2 && R4s1 && R4s2 && R5s1 && R5s2 && R6s1 && R6s2 && R7s1 && R7s2 && R8s1 && R8s2 && R9s1 && R9s2 && R10s1 && R10s2 && R10s3 )
+        {
+            console.log('sHoot = 21');
+            var _R10sA = document.getElementById('R10sA').value;
+            var _R10s3 = document.getElementById('R10s3').value;
+               if (R10s1 == 10 )
+               {
+                   var v = parseInt(_R10sA) + parseInt(_R10s3) ;
+                   document.getElementById('R10sA').value = v ;
+                   console.log(' 完成 最後 獎勵 10-3 的紀錄。');
+               }
+            reFresh_sA('R10sA');
+        }
+        else if( R1s1 && R1s2 && R2s1 && R2s2 && R3s1 && R3s2 && R4s1 && R4s2 && R5s1 && R5s2 && R6s1 && R6s2 && R7s1 && R7s2 && R8s1 && R8s2 && R9s1 && R9s2 && R10s1 && R10s2  )
+        {
+            console.log('sHoot = 20');
+            chk_sTrike('R8s1','R8s2','R9s1','R9s2','R10s1','R10s2','R9sA','R8sA');
+            nSUMs('R9sA','R10sA','R10s1','R10s2') ;
+            reFresh_sA('R10sA');
+        }
+        else if( R1s1 && R1s2 && R2s1 && R2s2 && R3s1 && R3s2 && R4s1 && R4s2 && R5s1 && R5s2 && R6s1 && R6s2 && R7s1 && R7s2 && R8s1 && R8s2 && R9s1 && R9s2 && R10s1  )
+        {
+            console.log('sHoot = 19');
+            chk_firstHit('R10s1','R10s2','R10sA','R9sA');
+            chk_sTrike('R8s1','R8s2','R9s1','R9s2','R10s1','R10s2','R9sA','R8sA');
+        }
+
+        <!--第九局-->
+        else if( R1s1 && R1s2 && R2s1 && R2s2 && R3s1 && R3s2 && R4s1 && R4s2 && R5s1 && R5s2 && R6s1 && R6s2 && R7s1 && R7s2 && R8s1 && R8s2 && R9s1 && R9s2 )
+        {   console.log('sHoot = 18');
+            chk_sTrike('R7s1','R7s2','R8s1','R8s2','R9s1','R9s2','R8sA','R7sA');
+            nSUMs('R8sA','R9sA','R9s1','R9s2') ;
+            reFresh_sA('R9sA');
+        }
+
+        else if( R1s1 && R1s2 && R2s1 && R2s2 && R3s1 && R3s2 && R4s1 && R4s2 && R5s1 && R5s2 && R6s1 && R6s2 && R7s1 && R7s2 && R8s1 && R8s2 && R9s1 )
+        {   console.log('sHoot = 17');
+            chk_firstHit('R9s1','R9s2','R9sA','R8sA');
+            chk_sTrike('R7s1','R7s2','R8s1','R8s2','R9s1','R9s2','R8sA','R7sA');
+            chk_sPare('R8s1','R8s2','R8sA','R9s1') ;
+        }
+
+        <!--第八局-->
+        else if( R1s1 && R1s2 && R2s1 && R2s2 && R3s1 && R3s2 && R4s1 && R4s2 && R5s1 && R5s2 && R6s1 && R6s2 && R7s1 && R7s2 && R8s1 && R8s2 )
+        {   console.log('sHoot = 16');
+            chk_sTrike('R6s1','R6s2','R7s1','R7s2','R8s1','R8s2','R7sA','R6sA');
+            nSUMs('R7sA','R8sA','R8s1','R8s2') ;
+            reFresh_sA('R8sA');
+            }
+
+        else if( R1s1 && R1s2 && R2s1 && R2s2 && R3s1 && R3s2 && R4s1 && R4s2 && R5s1 && R5s2 && R6s1 && R6s2 && R7s1 && R7s2 && R8s1 )
+        {   console.log('sHoot = 15');
+            chk_firstHit('R8s1','R8s2','R8sA','R7sA');
+            chk_sTrike('R6s1','R6s2','R7s1','R7s2','R8s1','R8s2','R7sA','R6sA');
+            chk_sPare('R7s1','R7s2','R7sA','R8s1') ;
+            }
+
+        <!--第七局-->
+        else if( R1s1 && R1s2 && R2s1 && R2s2 && R3s1 && R3s2 && R4s1 && R4s2 && R5s1 && R5s2 && R6s1 && R6s2 && R7s1 && R7s2 )
+        {   console.log('sHoot = 14');
+            chk_sTrike('R5s1','R5s2','R6s1','R6s2','R7s1','R7s2','R6sA','R5sA');
+            nSUMs('R6sA','R7sA','R7s1','R7s2') ;
+            reFresh_sA('R7sA');
+            }
+
+        else if( R1s1 && R1s2 && R2s1 && R2s2 && R3s1 && R3s2 && R4s1 && R4s2 && R5s1 && R5s2 && R6s1 && R6s2 && R7s1 )
+        {   console.log('sHoot = 13');
+            chk_firstHit('R7s1','R7s2','R7sA','R6sA');
+            chk_sTrike('R5s1','R5s2','R6s1','R6s2','R7s1','R7s2','R6sA','R5sA');
+            chk_sPare('R6s1','R6s2','R6sA','R7s1') ;
+            }
+
+        <!--第六局-->
+        else if( R1s1 && R1s2 && R2s1 && R2s2 && R3s1 && R3s2 && R4s1 && R4s2 && R5s1 && R5s2 && R6s1 && R6s2 )
+        {   console.log('sHoot = 12');
+            chk_sTrike('R4s1','R4s2','R5s1','R5s2','R6s1','R6s2','R5sA','R4sA');
+            nSUMs('R5sA','R6sA','R6s1','R6s2') ;
+            reFresh_sA('R6sA');
+            }
+
+        else if( R1s1 && R1s2 && R2s1 && R2s2 && R3s1 && R3s2 && R4s1 && R4s2 && R5s1 && R5s2 && R6s1 )
+        {   console.log('sHoot = 11');
+            chk_firstHit('R6s1','R6s2','R6sA','R5sA');
+            chk_sTrike('R4s1','R4s2','R5s1','R5s2','R6s1','R6s2','R5sA','R4sA');
+            chk_sPare('R5s1','R5s2','R5sA','R6s1') ;
+            }
+
+        <!--第五局-->
+        else if( R1s1 && R1s2 && R2s1 && R2s2 && R3s1 && R3s2 && R4s1 && R4s2 && R5s1 && R5s2 )
+        {   console.log('sHoot = 10');
+            chk_sTrike('R3s1','R3s2','R4s1','R4s2','R5s1','R5s2','R4sA','R3sA');
+            nSUMs('R4sA','R5sA','R5s1','R5s2') ;
+            reFresh_sA('R5sA');
+            }
+
+        else if( R1s1 && R1s2 && R2s1 && R2s2 && R3s1 && R3s2 && R4s1 && R4s2 && R5s1 )
+        {   console.log('sHoot = 9');
+            chk_firstHit('R5s1','R5s2','R5sA','R4sA');
+            chk_sTrike('R3s1','R3s2','R4s1','R4s2','R5s1','R5s2','R4sA','R3sA');
+            console.log('---- ----');
+            chk_sPare('R4s1','R4s2','R4sA','R5s1') ;
+            console.log('---- ----');
+            }
+
+
+        <!-- 第四局 -->
+        else  if( R1s1 && R1s2 && R2s1 && R2s2 && R3s1 && R3s2 && R4s1 && R4s2 )
+        {    console.log('sHoot = 8');
+             chk_sTrike('R2s1','R2s2','R3s1','R3s2','R4s1','R4s2','R3sA','R2sA');
+             nSUMs('R3sA','R4sA','R4s1','R4s2' ) ;
+             reFresh_sA('R4sA');
+             }
+
+        else if( R1s1 && R1s2 && R2s1 && R2s2 && R3s1 && R3s2 && R4s1 )
+        {    console.log('sHoot = 7');
+             chk_firstHit('R4s1','R4s2','R4sA','R3sA');
+             chk_sTrike('R2s1','R2s2','R3s1','R3s2','R4s1','R4s2','R3sA','R2sA');
+             chk_sPare('R3s1','R3s2','R3sA','R4s1') ;
+             }
+
+
+        <!--第三局  -->
+        else if( R1s1 && R1s2 && R2s1 && R2s2 && R3s1 && R3s2 )
+        {    console.log('sHoot = 6');
+             chk_sTrike('R1s1','R1s2','R2s1','R2s2','R3s1','R3s2','R2sA','R1sA');
+             nSUMs('R2sA','R3sA','R3s1','R3s2' ) ;
+             reFresh_sA('R3sA');
+             }
+
+        else if( R1s1 && R1s2 && R2s1 && R2s2 && R3s1 )
+        {    console.log('sHoot = 5');
+             chk_firstHit('R3s1','R3s2','R3sA','R2sA');
+             chk_sTrike('R1s1','R1s2','R2s1','R2s2','R3s1','R3s2','R2sA','R1sA');
+             chk_sPare('R2s1','R2s2','R2sA','R3s1') ;
+        }
+
+        <!--第二局-->
+        else if( R1s1 && R1s2 && R2s1 && R2s2 )
+        {
+             console.log('sHoot = 4');
+             nSUMs('R1sA','R2sA','R2s1','R2s2' ) ;
+             reFresh_sA('R2sA');
+        }
+
+        else if( R1s1 && R1s2 && R2s1 )
+        {
+             console.log('sHoot = 3');
+             chk_firstHit('R2s1','R2s2','R2sA','R1sA');
+             chk_sPare('R1s1','R1s2','R1sA','R2s1') ;
+<!--             reFresh_sA('R2sA');-->
+        }
+
+        <!--第一局-->
+        else if( R1s1 && R1s2 ){            console.log('sHoot = 2');  Temp_score('R1sA',R1s1 ,R1s2 );         reFresh_sA('R1sA');      }
+        else if( R1s1 )   {                 console.log('sHoot = 1');  chk_firstHit('R1s1','R1s2','R1sA','0');  reFresh_sA('R1s1');   }
+
+
+
+
+ function reFresh_sA(TRsA)
+    {     SHOW_TTs = document.getElementById(TRsA).value; document.getElementById('id_xss').value = parseInt(SHOW_TTs) }
+
+
+    function chk_sTrike(nns1,nns2,ns1,ns2,TR_s1,TR_s2,nsA,nnsA)
+    {
+        var _nns1   = document.getElementById(nns1).value
+        var _nns2   = document.getElementById(nns2).value
+        var _ns1   = document.getElementById(ns1).value
+        var _ns2   = document.getElementById(ns2).value
+        var _TR_s1 = document.getElementById(TR_s1).value
+        var _TR_s2 = document.getElementById(TR_s2).value
+        var _VnsA    = document.getElementById(nsA).value
+        var _VnnsA    = document.getElementById(nnsA).value
+
+        console.log('現有數據確認： _nsA = ' + _VnsA  + ' / _nns1 = ' + _nns1 + ' / _nns2 = ' + _nns2 + ' / _ns1 = ' + _ns1 + ' / _ns2 = ' + _ns2 + ' / _TR_s1 = ' + _TR_s1 + ' /  _TR_s2  = ' + _TR_s2  );
+
+        if( _ns1 == 10  && _ns2 ==0 && _nns1 == 10  && _nns2 ==0 && _TR_s1 != 0 && _TR_s2 !=0)
+        {
+            var v = parseInt(_VnnsA) +parseInt(_TR_s2) +parseInt(_TR_s1) + 10;
+            console.log(' 執行-- > spare_方案[四]' );
+            document.getElementById(nsA).value = v ;
+
+        }
+        else if( _ns1 == 10  && _ns2 ==0 && _nns1 == 10  && _nns2 ==0  && _TR_s2 ==0 )
+        {
+<!--            var v = parseInt(_VnnsA) +parseInt(_TR_s1)-->
+            var v = parseInt(_VnnsA) +parseInt(_TR_s1) + parseInt(_ns1) + parseInt(_ns2)-10;
+
+<!--            var v = parseInt(_VnsA) +parseInt(_TR_s1) + parseInt(_ns1) + parseInt(_ns2);-->
+            console.log(' 執行-- > spare_方案[三]' );
+            document.getElementById(nnsA).value = v ;
+
+        }
+        else if( _ns1 == 10  && _ns2 ==0 && _TR_s2 == 0  )
+        {
+            var v = parseInt(_VnsA)  +parseInt(_TR_s1) ;
+<!--            if(_ns1 == 10){   v = parseInt(v) -1 ; console.log('獎勵(-1) v = ' + v);}-->
+            console.log(' 執行-- > spare_方案[二：加第1箭 獎勵 ]: '+parseInt(_TR_s1) +' 分，並將總分改寫為: ' + v  );
+            document.getElementById(nsA).value = v ;
+        }
+        else if( _ns1 == 10  && _ns2 ==0  )
+        {
+            var v = parseInt(_VnsA)  +parseInt(_TR_s2) ;
+            console.log(' 執行-- > spare_方案[ㄧ：加第2箭 獎勵 ]: '+parseInt(_TR_s2) +' 分，並將總分改寫為: ' + v  );
+            document.getElementById(nsA).value = v ;
+        }
+
+    }
+
+<!--chk_firstHit('R2s1','R2s2','R2sA','R1sA')-->
+    function chk_firstHit(TRs1,TRs2,TRsA,presA)
+    {
+        var a
+        if (presA == 0){  var a = 0  }
+        else{ a = document.getElementById(presA).value;  }
+
+<!--        console.log('a = ' + a);-->
+
+        var b = document.getElementById(TRs1).value ; if (b == null | b == 0) { b = 0 ;}
+        var c = document.getElementById(TRs2).value ; if (c == null | c == 0) { c = 0 ;}
+
+<!--        console.log(' 確認過 第一球是否全倒 ？' );-->
+
+        if( b == 10)
+        {
+            document.getElementById(TRs2).value = 0 ; // 將第二次射擊註銷
+            if (presA == 0){  document.getElementById('R1sA').value = 10 ;  }
+            else{ document.getElementById(TRsA).value = parseInt(a) + parseInt(b) + parseInt(c) ;}// 將本次 分數與前次加總
+<!--            console.log(' 真 全倒 ！！' );-->
+        }
+<!--        else { console.log(' 沒有全倒 ！！' ); }-->
+    }
+
+    function nSUMs(preSA,TRsA,TRs1,TRs2){
+        var a = document.getElementById(preSA).value
+        var b = document.getElementById(TRs1).value
+        var c = document.getElementById(TRs2).value
+        sALL = parseInt(a) + parseInt(b) + parseInt(c) ;
+        console.log('〖 Do nSUMs 〗= ' + sALL ) ;
+        document.getElementById(TRsA).value = parseInt(sALL) ;
+    }
+
+    function chk_sPare(ns1,ns2,nsA,Bon_1)
+    {
+        var a = document.getElementById(ns1).value
+        var b = document.getElementById(ns2).value
+        var c = document.getElementById(nsA).value
+        var d = document.getElementById(Bon_1).value
+        var tmp_cnt = parseInt(a) + parseInt(b) ;
+        console.log('------ >〖 tmp_cnt: '+ tmp_cnt + '  b = ' + b + ' 〗' );
+        if( tmp_cnt == 10 & b !=0 )
+        {
+            var tmp_cnt2  = parseInt(c) + parseInt(d) ;
+            document.getElementById(nsA).value = tmp_cnt2 ;
+        }
+        console.log('------ >〖 Do chk_sPare 〗< -------'+ 'a = '+ a +'b = ' + b  + ' c = ' + c + ' d = '+ d +'::') ;
+    }
+
+    function Temp_score(nSA,a ,b ){
+        sALL = parseInt(a) + parseInt(b) ;
+        console.log('- ->> sA = ' + sALL + '<< - - >> nSA = ' + nSA)
+        document.getElementById(nSA).value = sALL ;
+    }
+
+});});
+
+
+
+jQuery(document).ready(function($){
+
+  window.onload = function (){
+    $(".bts-popup").delay(1000).addClass('is-visible');
+	}
+
+	//open popup
+	$('.bts-popup-trigger').on('click', function(event){
+		event.preventDefault();
+		$('.bts-popup').addClass('is-visible');
+	});
+
+	//close popup
+	$('.bts-popup').on('click', function(event){
+		if( $(event.target).is('.bts-popup-close') || $(event.target).is('.bts-popup') ) {
+			event.preventDefault();
+			$(this).removeClass('is-visible');
+		}
+	});
+	//close popup when clicking the esc keyboard button
+	$(document).keyup(function(event){
+    	if(event.which=='27'){
+    		$('.bts-popup').removeClass('is-visible');
+	    }
+    });
+});
+
+</script>
+
+
+
+</html>

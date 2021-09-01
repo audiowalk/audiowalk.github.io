@@ -1,0 +1,648 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link rel="icon" type="image/png" href="assets/img/favicon.png"/>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+        <title>看箭，你的厲害！</title>
+        <link rel="shortcut icon" href="https://i.imgur.com/wAi46rS.png" />
+        <link rel="bookmark" href="https://i.imgur.com/wAi46rS.png" />
+
+
+        <link rel="image_src"           href="https://i.imgur.com/wAi46rS.png" />
+        <meta property="og:image"       content="https://i.imgur.com/wAi46rS.png" />
+
+      <meta name="description" content="弓箭-保齡球 線上計分板">
+      <meta name="keywords" content="保齡球, 射箭, 線上計分板">
+      <meta name="author" content="Shun">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+
+@import url(https://pro.fontawesome.com/releases/v5.10.0/css/all.css);
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;800&display=swap');
+
+        .tippy-box[data-inertia][data-state='visible'] 
+        {
+            transition-timing-function: cubic-bezier();
+        }
+
+        .tippy-box[data-theme~='tomato']
+        {
+            background-color: rgb(19, 87, 0);
+            color: rgb(113, 255, 168);
+            /* width:100vw; */
+        }
+        .tippy-arrow:before {
+            color: rgb(19, 87, 0);
+        }
+
+        .img-replace {
+          /* replace text with an image */
+          display: inline-block;
+          overflow: hidden;
+          text-indent: 100%;
+          color: transparent;
+          white-space: nowrap;
+        }
+        .bts-popup {
+          position: fixed;
+          left: 0;
+          top: 0;
+          height: 100%;
+          width: 100%;
+          background-color: rgba(0, 0, 0, 0.5);
+          opacity: 0;
+          visibility: hidden;
+          -webkit-transition: opacity 0.3s 0s, visibility 0s 0.3s;
+          -moz-transition: opacity 0.3s 0s, visibility 0s 0.3s;
+          transition: opacity 0.3s 0s, visibility 0s 0.3s;
+        }
+        .bts-popup.is-visible {
+          opacity: 1;
+          visibility: visible;
+          -webkit-transition: opacity 0.3s 0s, visibility 0s 0s;
+          -moz-transition: opacity 0.3s 0s, visibility 0s 0s;
+          transition: opacity 0.3s 0s, visibility 0s 0s;
+        }
+
+        .bts-popup-container {
+          position: relative;
+
+          max-width: 400px;
+          margin: 2vh 12vw  ;
+          background: #9c8203;
+          border-radius: none;
+          text-align: center;
+          box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+          -webkit-transform: translateY(-40px);
+          -moz-transform: translateY(-40px);
+          -ms-transform: translateY(-40px);
+          -o-transform: translateY(-40px);
+          transform: translateY(-40px);
+          /* Force Hardware Acceleration in WebKit */
+          -webkit-backface-visibility: hidden;
+          -webkit-transition-property: -webkit-transform;
+          -moz-transition-property: -moz-transform;
+          transition-property: transform;
+          -webkit-transition-duration: 0.3s;
+          -moz-transition-duration: 0.3s;
+          transition-duration: 0.3s;
+        }
+        .bts-popup-container img {
+          padding: 20px 0 0 0;
+        }
+        .bts-popup-container p {
+            color: white;
+          padding: 10px 40px;
+        }
+        .bts-popup-container .bts-popup-button {
+          padding: 5px 25px;
+          border: 2px solid white;
+            display: inline-block;
+          margin-bottom: 10px;
+        }
+
+        .bts-popup-container a {
+          color: white;
+          text-decoration: none;
+          text-transform: uppercase;
+        }
+        .bts-popup-container .bts-popup-close {
+          position: absolute;
+          top: 8px;
+          right: 8px;
+          width: 30px;
+          height: 30px;
+        }
+        .bts-popup-container .bts-popup-close::before, .bts-popup-container .bts-popup-close::after {
+          content: '';
+          position: absolute;
+          top: 12px;
+          width: 16px;
+          height: 3px;
+          background-color: white;
+        }
+        .bts-popup-container .bts-popup-close::before {
+          -webkit-transform: rotate(45deg);
+          -moz-transform: rotate(45deg);
+          -ms-transform: rotate(45deg);
+          -o-transform: rotate(45deg);
+          transform: rotate(45deg);
+          left: 8px;
+        }
+        .bts-popup-container .bts-popup-close::after {
+          -webkit-transform: rotate(-45deg);
+          -moz-transform: rotate(-45deg);
+          -ms-transform: rotate(-45deg);
+          -o-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+          right: 6px;
+          top: 13px;
+        }
+        .is-visible .bts-popup-container {
+          -webkit-transform: translateY(0);
+          -moz-transform: translateY(0);
+          -ms-transform: translateY(0);
+          -o-transform: translateY(0);
+          transform: translateY(0);
+        }
+        @media only screen and (min-width: 1170px) {
+          .bts-popup-container {
+            margin: 8em auto;
+          }
+        }
+
+    </style>
+
+    <style>
+        /* width */
+        ::-webkit-scrollbar {
+          width: 20px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+          box-shadow: inset 0 0 5px grey;
+          border-radius: 10px;
+          border-width:3px;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+          background: black;
+          border-radius: 10px;
+          height:40px
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+          background: #b30000;
+        }
+    </style>  
+  </head>
+  
+        
+  <body class="w-full ">
+  
+
+<!-- 
+    <button data-template="one" class=" js-parent m-4 bg-green-900 text-2xl text-gray-100 h-40 w-full hover:bg-green-500 ">
+            Oneeee </button>  -->
+
+ 
+            
+        
+                    
+
+    <div class="bg-yellow-300 p-2 text-center "> 
+
+        <!-- <i class="fas fa-trash-alt text-2xl pt-1"></i>
+        <a>弓箭保齡球計分</a> 
+        <input type="button" value="我是按鈕" onclick="location.href='https://www.google.com/'"   ><i class="fas fa-trash-alt text-2xl pt-1"></i></input> -->
+
+        <!-- <input class="bg-blue-500 hover:bg-blue-900 text-white 
+        font-bold py-2 px-4 border-b-4 border-blue-700 
+        hover:border-gray-900 rounded grid-rows-1 "  
+    >
+</button>  -->
+
+        <span class="text-xl font-semibold inline-block py-1 px-2.5 text-center  mx-2
+            rounded-full text-yellow-600 bg-yellow-200  border-2 border-yellow-500 uppercase  "> 
+            弓箭保齡球.計分器
+        </span>  
+
+        <a onclick="subgo('回到小工具首頁。')" class="bg-green-500 hover:bg-green-900 text-white 
+                                    font-bold py-2 px-2.5 border-b-4 border-green-700 
+                                    hover:border-green-900 rounded-full grid-rows-1 " 
+                                    > <i class="fas fa-home"></i></a>
+
+        <a onclick="subgo('即將刪除所有分數。')" class="bg-red-500 hover:bg-red-900 text-white 
+                                    font-bold py-2 px-3 border-b-4 border-red-700 
+                                    hover:border-red-900 rounded-full grid-rows-1 " 
+                                    > <i class="fas fa-trash-alt"></i></a> 
+            
+        <div class="bg-yellow-100  text-center p-2 rounded-2xl my-5">   
+<!-- -- -- -- -- -- -- -- -- -- -- -- gap-0.5 -- -- -- -- -- -- -- -- -- -- -- -- -->
+            <div class=" mb-2 ">
+                <span class="text-xs w-1/4 font-bold inline-block
+                            py-2 px-2 text-xl text-center grid-rows-1
+                            capitalize rounded-l-3xl rounded-r-lg text-yellow-600 
+                            bg-yellow-200 last:mr-0 mr-1"> <i class="fas fa-crown"></i> P1 </span>
+
+                <span class="text-xs w-1/3 font-bold inline-block
+                            py-2 pl-0 text-xl text-center grid-rows-1
+                            capitalize rounded text-gray-100
+                            bg-gray-900 last:mr-0 mr-1">  ?? 分  </span> 
+
+                <span class="bg-blue-500 hover:bg-blue-900 text-white w-1/4
+                            font-bold py-3 px-8   hover:border-gray-900 
+                             rounded-r-3xl rounded-l-lg grid-rows-1 " >
+                             <i class="fas fa-sync-alt"></i></span>            
+ 
+<!-- -- -- -- -- -- -- -- -- -- -- -- gap-0.5 -- -- -- -- -- -- -- -- -- -- -- -- -->
+
+            <div class="grid grid-cols-5 gap-0.5 justify-items-stretch my-2"> 
+            
+                <div class = "grid-rows-1">
+                    <div class="w-auto h-auto max-w-xs overflow-hidden
+                                border-gray-900 rounded shadow-md bg-white
+                                hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                        <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                            <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 1 </div>
+                            <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 hover:bg-green-500 " onclick="sclWin(0,90)" > ? </button>
+                            <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 hover:bg-green-500 border-l-2 border-b-2 border-gray-900" onclick="sclWin(0,90)"> ?? </button>  
+                            <div class = "grid-rows-4 col-span-2 bg-gray-100 text-center pt-2 "> ? </div>
+                        </div>
+                    </div>
+                </div>
+                <div class = "grid-rows-1">
+                    <div class="w-auto h-auto max-w-xs overflow-hidden
+                                border-gray-900 rounded shadow-md bg-white
+                                hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                        <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                            <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 2 </div>
+                            <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 hover:bg-green-500 " onclick="sclWin(0,90)" > ? </button>
+                            <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 hover:bg-green-500 border-l-2 border-b-2 border-gray-900 " onclick="sclWin(0,90)" > ?? </button>  
+                            <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> ? </div>
+                        </div>
+                    </div>
+                </div> 
+                <div class = "grid-rows-1">
+                    <div class="w-auto h-auto max-w-xs overflow-hidden
+                                border-gray-900 rounded shadow-md bg-white
+                                hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                        <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                            <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 3 </div>
+                            <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 hover:bg-green-500 "> ? </button>
+                            <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 hover:bg-green-500 border-l-2 border-b-2 border-gray-900  "> ?? </button>  
+                            <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> ? </div>
+                        </div>
+                    </div>
+                </div>
+                <div class = "grid-rows-1">
+                    <div class="w-auto h-auto max-w-xs overflow-hidden
+                                border-gray-900 rounded shadow-md bg-white
+                                hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                        <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                            <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 4 </div>
+                            <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 hover:bg-green-500 "> ? </button>
+                            <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 hover:bg-green-500 border-l-2 border-b-2 border-gray-900  "> ?? </button>  
+                            <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> ? </div>
+                        </div>
+                    </div>
+                </div>
+                <div class = "grid-rows-1">
+                    <div class="w-auto h-auto max-w-xs overflow-hidden
+                                border-gray-900 rounded shadow-md bg-white
+                                hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                        <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                            <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 5 </div>
+                            <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 hover:bg-green-500 "> ? </button>
+                            <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 hover:bg-green-500 border-l-2 border-b-2 border-gray-900  "> ?? </button>  
+                            <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> ? </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="grid grid-cols-5 gap-0.5 justify-items-stretch mb-2"> 
+            
+                <div class = "grid-rows-1">
+                    <div class="w-auto h-auto max-w-xs overflow-hidden
+                                border-gray-900 rounded shadow-md bg-white
+                                hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                        <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                            <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 1 </div>
+                            <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 hover:bg-green-500 " onclick="sclWin(0,160)"> ? </button>
+                            <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 hover:bg-green-500 border-l-2 border-b-2 border-gray-900 "onclick="sclWin(0,160)"> ?? </button>  
+                            <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> ? </div>
+                        </div>
+                    </div>
+                </div>
+                <div class = "grid-rows-1">
+                    <div class="w-auto h-auto max-w-xs overflow-hidden
+                                border-gray-900 rounded shadow-md bg-white
+                                hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                        <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                            <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 2 </div>
+                            <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 hover:bg-green-500 "> ? </button>
+                            <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 hover:bg-green-500 border-l-2 border-b-2 border-gray-900  "> ?? </button>  
+                            <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> ? </div>
+                        </div>
+                    </div>
+                </div> 
+                <div class = "grid-rows-1">
+                    <div class="w-auto h-auto max-w-xs overflow-hidden
+                                border-gray-900 rounded shadow-md bg-white
+                                hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                        <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                            <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 3 </div>
+                            <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 hover:bg-green-500 "> ? </button>
+                            <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 hover:bg-green-500 border-l-2 border-b-2 border-gray-900  "> ?? </button>  
+                            <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> ? </div>
+                        </div>
+                    </div>
+                </div>
+                <div class = "grid-rows-1">
+                    <div class="w-auto h-auto max-w-xs overflow-hidden
+                                border-gray-900 rounded shadow-md bg-white
+                                hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                        <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                            <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 4 </div>
+                            <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 hover:bg-green-500 "> ? </button>
+                            <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 hover:bg-green-500 border-l-2 border-b-2 border-gray-900  "> ?? </button>  
+                            <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> ? </div>
+                        </div>
+                    </div>
+                </div>
+                <div class = "grid-rows-1">
+                    <div class="w-auto h-auto max-w-xs overflow-hidden
+                                border-gray-900 rounded shadow-md bg-white
+                                hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                        <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                            <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 5 </div>
+                            <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 hover:bg-green-500 "> ? </button>
+                            <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 hover:bg-green-500 border-l-2 border-b-2 border-gray-900  "> ?? </button>  
+                            <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> ? </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>    
+<!-- -- -- -- -- -- -- -- -- -- -- -- gap-0.5 -- -- -- -- -- -- -- -- -- -- -- -- -->  
+    </div>
+          
+        <div class="bg-yellow-100  text-center p-2 rounded-2xl my-10">   
+            <!-- -- -- -- -- -- -- -- -- -- -- -- gap-0.5 -- -- -- -- -- -- -- -- -- -- -- -- -->
+                        <div class=" mb-2 ">
+                            <span class="text-xs w-1/4 font-bold inline-block
+                                        py-2 px-2 text-xl text-center grid-rows-1
+                                        capitalize rounded-l-3xl rounded-r-lg text-yellow-600 
+                                        bg-yellow-200 last:mr-0 mr-1"> <i class="fas fa-crown"></i> P2 </span>
+            
+                            <span class="text-xs w-1/3 font-bold inline-block
+                                        py-2 pl-0 text-xl text-center grid-rows-1
+                                        capitalize rounded text-gray-100
+                                        bg-gray-900 last:mr-0 mr-1">  ?? 分  </span> 
+            
+                            <span class="bg-blue-500 hover:bg-blue-900 text-white w-1/4
+                                        font-bold py-3 px-8   hover:border-gray-900 
+                                         rounded-r-3xl rounded-l-lg grid-rows-1 " >
+                                         <i class="fas fa-sync-alt"></i></span>            
+             
+            <!-- -- -- -- -- -- -- -- -- -- -- -- gap-0.5 -- -- -- -- -- -- -- -- -- -- -- -- -->
+            
+                        <div class="grid grid-cols-5 gap-0.5 justify-items-stretch my-2"> 
+                        
+                            <div class = "grid-rows-1">
+                                <div class="w-auto h-auto max-w-xs overflow-hidden
+                                            border-gray-900 rounded shadow-md bg-white
+                                            hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                    <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                        <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 1 </div>
+                                        <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 hover:bg-green-500 " onclick="sclWin(0,320)" > ? </button>
+                                        <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 hover:bg-green-500 border-l-2 border-b-2 border-gray-900  "> ?? </button>  
+                                        <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> ? </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class = "grid-rows-1">
+                                <div class="w-auto h-auto max-w-xs overflow-hidden
+                                            border-gray-900 rounded shadow-md bg-white
+                                            hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                    <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                        <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 2 </div>
+                                        <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 hover:bg-green-500 "> ? </button>
+                                        <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 hover:bg-green-500 border-l-2 border-b-2 border-gray-900  "> ?? </button>  
+                                        <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> ? </div>
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class = "grid-rows-1">
+                                <div class="w-auto h-auto max-w-xs overflow-hidden
+                                            border-gray-900 rounded shadow-md bg-white
+                                            hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                    <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                        <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 3 </div>
+                                        <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 hover:bg-green-500 "> ? </button>
+                                        <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 hover:bg-green-500 border-l-2 border-b-2 border-gray-900  "> ?? </button>  
+                                        <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> ? </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class = "grid-rows-1">
+                                <div class="w-auto h-auto max-w-xs overflow-hidden
+                                            border-gray-900 rounded shadow-md bg-white
+                                            hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                    <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                        <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 4 </div>
+                                        <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 hover:bg-green-500 "> ? </button>
+                                        <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 hover:bg-green-500 border-l-2 border-b-2 border-gray-900  "> ?? </button>  
+                                        <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> ? </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class = "grid-rows-1">
+                                <div class="w-auto h-auto max-w-xs overflow-hidden
+                                            border-gray-900 rounded shadow-md bg-white
+                                            hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                    <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                        <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 5 </div>
+                                        <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 hover:bg-green-500 "> ? </button>
+                                        <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 hover:bg-green-500 border-l-2 border-b-2 border-gray-900  "> ?? </button>  
+                                        <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> ? </div>
+                                    </div>
+                                </div>
+                            </div>
+            
+            
+                        </div>
+            
+                        <div class="grid grid-cols-5 gap-0.5 justify-items-stretch mb-2"> 
+                        
+                            <div class = "grid-rows-1">
+                                <div class="w-auto h-auto max-w-xs overflow-hidden
+                                            border-gray-900 rounded shadow-md bg-white
+                                            hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                    <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                        <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 1 </div>
+                                        <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 hover:bg-green-500 "> ? </button>
+                                        <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 hover:bg-green-500 border-l-2 border-b-2 border-gray-900  "> ?? </button>  
+                                        <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> ? </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class = "grid-rows-1">
+                                <div class="w-auto h-auto max-w-xs overflow-hidden
+                                            border-gray-900 rounded shadow-md bg-white
+                                            hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                    <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                        <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 2 </div>
+                                        <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 hover:bg-green-500 "> ? </button>
+                                        <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 hover:bg-green-500 border-l-2 border-b-2 border-gray-900  "> ?? </button>  
+                                        <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> ? </div>
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class = "grid-rows-1">
+                                <div class="w-auto h-auto max-w-xs overflow-hidden
+                                            border-gray-900 rounded shadow-md bg-white
+                                            hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                    <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                        <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 3 </div>
+                                        <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 hover:bg-green-500 "> ? </button>
+                                        <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 hover:bg-green-500 border-l-2 border-b-2 border-gray-900  "> ?? </button>  
+                                        <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> ? </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class = "grid-rows-1">
+                                <div class="w-auto h-auto max-w-xs overflow-hidden
+                                            border-gray-900 rounded shadow-md bg-white
+                                            hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                    <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                        <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 4 </div>
+                                        <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 hover:bg-green-500 "> ? </button>
+                                        <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 hover:bg-green-500 border-l-2 border-b-2 border-gray-900  "> ?? </button>  
+                                        <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> ? </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class = "grid-rows-1">
+                                <div class="w-auto h-auto max-w-xs overflow-hidden
+                                            border-gray-900 rounded shadow-md bg-white
+                                            hover:shadow-xl transition-shadow duration-300 ease-in-out" >
+                                    <div class="grid grid-cols-2  gap-0 h-auto justify-items-stretch border-2 border-gray-900 ">
+                                        <div class = "grid-rows-1 col-span-2  bg-gray-800 text-gray-100 text-center pt-2 "> 5 </div>
+                                        <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 border-gray-0 hover:bg-green-500 "> ? </button>
+                                        <button data-template="one" class=" js-parent grid-rows-2 bg-gray-0 justify-center border-2 hover:bg-green-500 border-l-2 border-b-2 border-gray-900  "> ?? </button>  
+                                        <div class = "grid-rows-4 col-span-2 bg-gray-0 text-center pt-2 "> ? </div>
+                                    </div>
+                                </div>
+                            </div>
+            
+            
+                        </div>
+                    </div>    
+            <!-- -- -- -- -- -- -- -- -- -- -- -- gap-0.5 -- -- -- -- -- -- -- -- -- -- -- -- -->  
+                </div> 
+                
+            <div class="h-96 bg-yellow-200 ">
+            </div>      
+    </div>
+
+
+
+
+    <template id="one" style="background-colo:white" >
+        <strong class ="text-center "> 請輸入本次成績 </strong>
+        <!-- <button data-template="nested">Nested in One</button>   -->
+          <div class="flex m-2 ">
+            <div class="mx-auto flex grid gap-2 grid-cols-3 ">  
+                <button class="w-auto h-auto grid-rows-1 items-center justify-center flex-1 shadow px-2 rounded-lg bg-gray-100 font-bold text-base text-center text-gray-900 ">
+                    1 
+                </button>
+                <button class="w-auto h-auto grid-rows-1 items-center justify-center flex-1 shadow rounded-lg bg-gray-100 font-bold text-base text-center text-gray-900">
+                    2 
+                </button>
+                <button class="w-auto h-auto grid-rows-1 items-center justify-center flex-1 shadow rounded-lg bg-gray-100 font-bold text-base text-center text-gray-900">
+                    3 
+                </button>
+
+                <button class="w-auto h-auto grid-rows-1 items-center justify-center flex-1 shadow rounded-lg bg-gray-100 font-bold text-base text-center text-gray-900">
+                    4 
+                </button>
+                <button class="w-auto h-auto grid-rows-1 items-center justify-center flex-1 shadow rounded-lg bg-gray-100 font-bold text-base text-center text-gray-900">
+                    5 
+                </button>
+                <button class="w-auto h-auto grid-rows-1 items-center justify-center flex-1 shadow rounded-lg bg-gray-100 font-bold text-base text-center text-gray-900">
+                    6
+                </button>
+
+                <button class="w-auto h-auto grid-rows-1 items-center justify-center flex-1 shadow rounded-lg bg-gray-100 font-bold text-base text-center text-gray-900">
+                    7 
+                </button>
+                <button class="w-auto h-auto grid-rows-1 items-center justify-center flex-1 shadow rounded-lg bg-gray-100 font-bold text-base text-center text-gray-900">
+                    8 
+                </button>
+                <button class="w-auto h-auto grid-rows-1 items-center justify-center flex-1 shadow rounded-lg bg-gray-100 font-bold text-base text-center text-gray-900">
+                    9
+                </button>
+
+                <button class="w-auto h-auto grid-rows-1 items-center justify-center flex-1 shadow rounded-lg bg-gray-100 font-bold text-base text-center text-gray-900">
+                    0 
+                </button>
+                <button class="w-auto h-auto grid-rows-1 items-center justify-center flex-1 shadow rounded-lg bg-gray-100 font-bold text-base text-center text-gray-900">
+                    / 
+                </button>
+                <button class="w-auto h-auto grid-rows-1 items-center justify-center flex-1 shadow rounded-lg bg-gray-100 font-bold text-base text-center text-gray-900">
+                    x 
+                </button> 
+            </div>
+          </div> 
+    </template> 
+ 
+</body>
+
+ 
+
+    <script>  
+ 
+    // - - - - - - - - - - - - - -  < 這邊是一些輔佐的小程式 >  - - - - - - - - - - - - - -  < 
+
+        function sclWin(x,y) {   window.scrollTo(x,y); }
+        function subgo(str)  {   alert(str);           }
+
+    // - - - - - - - - - - - - - -  < 1 >  - - - - - - - - - - - - - -  < 
+        const observer = new MutationObserver(function(mutations) 
+        {
+            mutations.forEach(function(mutation) {
+                if (mutation.addedNodes.length) {
+                    initializeTippy();
+                }
+            });
+        });
+
+     // - - - - - - - - - - - - - -  < 2 >  - - - - - - - - - - - - - -  < 
+
+        observer.observe(document.querySelector('.js-parent'), {
+                childList: true,
+            });
+
+        initializeTippy();
+        
+     // - - - - - - - - - - - - - -  < 3 >  - - - - - - - - - - - - - -  < 
+        function initializeTippy() {
+            return tippy('button', { 
+                interactive: true,
+                trigger: 'click', 
+                allowHTML: true,
+                theme: 'tomato',
+                appendTo: 'parent',
+                content(reference) {
+                    const id = reference.getAttribute('data-template');
+                        const template = document.getElementById(id);
+                        return template.innerHTML;
+                },
+            })
+        }  
+    </script>
+
+ 
+
+</html>

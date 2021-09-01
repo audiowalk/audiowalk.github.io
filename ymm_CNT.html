@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+ 
+    <title>羊咩咩 費用計算機</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>  
+    <style> 
+      
+    </style>
+  </head>
+
+
+  <body class="flex flex-col justify-center w-full h-full bg-gray-100 "> 
+ 
+      <!-- Component Start -->
+      <div class="flex flex-col flex-grow
+                  max-w-xl bg-white shadow-xl overflow-hidden">
+          <div class="bg-yellow-300 pt-4 text-center "> 
+            <span class="text-2xl font-semibold inline-block py-1 px-4 uppercase
+                          rounded text-yellow-600 bg-yellow-200 uppercase last:mr-0 mr-1">
+              羊咩咩費用 - 計算機
+            </span> 
+            <br><br>  
+            <div id="cart" class =" text-xs">
+              <ul v-for = "food in foods" >
+                <li class ="border-1 border-yellow-800 text-yellow-700 " >
+                  {{food.title}} {{food.price}}元 x
+                  <input type="number" v-model="food.amount" size=1  class= "m-2 text-center bg-yellow-100 text-gray-900 rounded-xl w-20" >
+                  = {{food.price * food.amount}}
+                </li>
+              </ul>
+
+              <br>
+              <div class = "grid grid-cols-3">
+                <div Class=" grid-rows-1 text-sm font-semibold inline-block py-1 px-4 uppercase
+                            rounded text-yellow-600 bg-yellow-200 uppercase last:mr-0 mr-1">
+                {{total}} 元 </div> 
+
+                <!-- <button class="" type="button" onclick="copyEvent('copy2')"></button>
+                <button type="button" ></button> -->
+        
+                <button class="bg-pink-500 hover:bg-pink-400 text-white 
+                               font-bold py-2 px-4 border-b-4 border-pink-700 
+                               hover:border-pink-500 rounded grid-rows-1 " 
+                        onclick="copyEvent('copy3')"
+                               > copy 付費資訊
+                </button>
+        
+                <butt
+                on class="bg-pink-500 hover:bg-pink-400 text-white 
+                               font-bold py-2 px-4 border-b-4 border-pink-700 
+                               hover:border-pink-500 rounded grid-rows-1 "
+                        onclick="copyEvent('copy2')"
+                               > copy 收件資訊
+                </button>
+             </div>
+          </div> 
+        </div>
+      </div> 
+    <div>
+        
+    <div class = "flex flex-rows">     
+      <section class="container pl-2 py-4 mx-auto">
+        <div class="grid gap-6 mb-8 md:grid-cols-2 lg:grid-cols-4">  
+          <!-- Card 3 -->
+          <div class="flex items-center p-4 bg-white border-2 border-gray-200 rounded-lg shadow-sm dark:bg-gray-800">
+                    
+            <textarea  
+                      name="mytext"
+                      rows="6"
+                      cols="40"
+                      id="copy3" 
+                      required> 
+🌟費用的部分，可以：🌟 
+🌿 1) 現金碰面收。 
+🌲 2) 轉帳匯款 :
+【永豐銀行】（807）鶯歌分行
+帳號：14001800111461 
+戶名：邱順群
+
+🎋 3 )轉帳匯款 :
+【中華郵政】（700）- 三峽分局
+帳號：03113250513672
+戶名：邱順群 
+
+🍃 4）LinePay好友轉帳，
+可加LINEID：qwerty1025 
+請小幫手:賣羊奶的阿順收
+
+或是點擊連結，找他
+https://line.me/ti/p/mMAa5btwik
+                      </textarea>  
+                      </div> 
+
+            <!-- Card 4 -->
+            <div class="flex items-center p-4 bg-white 
+                        border-2 rounded-lg shadow-sm dark:bg-gray-800
+                        border-gray-200 ">
+                                
+                      <textarea name="mytext" 
+                      rows="6"
+                      cols="40"
+                      id="copy2" 
+                      required> 
+🌟提醒您，預約宅配收貨🌟
+管理室代收記得放保冰袋喲
+
+🌿 提醒環保 愛地球的你 🌿
+我們期待您使用購物袋，取貨
+
+💨 如果路途較遠 我們提供 💨 
+加購 保冰包裝 20元  
+
+預約自取，可搜尋
+🌟五寮尖山羊乳🌟
+
+或是選導航連結：
+https://maps.app.goo.gl/eZSyFe2B4jxyrQPz9
+                      </textarea>
+          </div> 
+
+
+          
+
+        </div>
+        <div id="app21" class="items-center p-4 bg-white 
+                               grid grid-cols-4 gap-4
+                               border-2 rounded-lg shadow-sm dark:bg-gray-800
+                               border-gray-200" >
+                               <div>
+                                <input v-model="message0" type="text" placeholder="本方案我們將提供到 9/ 10 左右，屆時因應季節產量再逐步調整，" class="text-center border-2 mx-3 my-2 rounded-xl h-96 "/>
+
+                               </div> 
+                                
+                               <div> 
+                                  日1:<input v-model="message1" type="date" placeholder="edit me2" class="text-center border-2 mx-3 my-2 rounded-full"/><br>
+                                  日2:<input v-model="message2" type="number" placeholder="edit me2" class="text-center border-2 mx-3 my-2 rounded-full"/><br>
+                                  日3:<input v-model="message3" type="number" placeholder="edit me2" class="text-center border-2 mx-3 my-2 rounded-full"/><br>
+                                  日4:<input v-model="message4" type="number" placeholder="edit me2" class="text-center border-2 mx-3 my-2 rounded-full"/><br>
+                                  日5:<input v-model="message5" type="number" placeholder="edit me2" class="text-center border-2 mx-3 my-2 rounded-full"/><br>
+                                  日6:<input v-model="message6" type="number" placeholder="edit me2" class="text-center border-2 mx-3 my-2 rounded-full"/><br>
+                                  日7:<input v-model="message7" type="number" placeholder="edit me2" class="text-center border-2 mx-3 my-2 rounded-full"/><br>
+                                  日8:<input v-model="message8" type="number" placeholder="edit me2" class="text-center border-2 mx-3 my-2 rounded-full"/><br>
+                                  日9:<input v-model="message9" type="number" placeholder="edit me2" class="text-center border-2 mx-3 my-2 rounded-full"/><br>
+                               </div> 
+
+                               <div class="col-span-2">
+                                <button class="bg-pink-500 hover:bg-pink-400 text-white  align-center
+                                font-bold py-2 px-4 border-b-4 border-pink-700 
+                                hover:border-pink-500 rounded grid-rows-1 " 
+                                        onclick="copyEvent('copy4')"
+                                > copy 預計回傳訊息內容 </button>
+
+                                <p id="copy4" class= "border-2 rounded-xl"> 
+                                  
+🌟 請問還會需要續訂嗎？🌟 <br> 
+您好，這次的月卡的部分，<br> 
+分別在:{{ message1 }} {{ message2 }} {{ message3 }} {{ message4 }} {{ message5 }} {{ message6 }} {{ message7 }} {{ message8 }} {{ message9 }}<br> 
+完成配送了！
+                                   <br> 
+
+                                   {{ message0 }}
+
+                                   <br> 
+                                </p>
+                               </div>
+
+                              </div>  
+            
+          </div>
+      </section>  
+      
+    </div>  
+
+    
+    </div>  
+ </div>
+
+
+ 
+
+ 
+
+ <!-- Card 4
+<div class ="bg-pink-200">
+
+  <div id="app2" >
+    <div class="container">
+      <div class="row text-gray-900">
+        <div class="col-8">
+        <div class="row">
+          
+          
+ <div class="col-6 mt-3 mb-3">價格</div>
+        <div class="col-6 mt-3 mb-3">數量</div>
+        <div class="col-6">
+          <input type="number" class="form-control" v-model.number="num1"  min="0">
+        </div>
+        <div class="col-6">
+          <input type="number" class="form-control" v-model.number="num2" min="0">
+        </div>
+          <div class="col-12 mt-3 btn-group">
+            <button class="btn btn-outline-info w-25" @click="operate='+'" :class="{'active':operate=='+'}">+</button>
+            <button class="btn btn-outline-info w-25" @click="operate='-'" :class="{'active':operate=='-'}">-</button>
+            <button class="btn btn-outline-info w-25" @click="operate='*'" :class="{'active':operate=='*'}">*</button>
+            <button class="btn btn-outline-info w-25" @click="operate='/'" :class="{'active':operate=='/'}">/</button>
+          </div>
+          <div class="col-12">
+             <button class="btn btn-outline-info  mt-3 mb-3 w-100" @click="cal">=</button>
+            一共 {{result}} 元
+          </div>
+         
+        </div>
+        </div>
+        <div class="col-4 mt-3 mb-3">
+          <h5>購買紀錄</h5>
+          <button class="btn btn-warning text-danger btn-sm" @click="clear">clear</button>
+            <ul v-for="(item,index) in record.slice(-10)" :key="index">
+             <li>
+               {{item}}
+               <button @click="removeItem(index)" class="btn btn-warning text-secondary ms-3"><i class="bi bi-trash "></i></button>
+             </li>
+          </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+-->
+      
+
+
+
+  </body>
+
+   
+
+  <script>
+   
+    function copyEvent(id)
+    {
+        var str = document.getElementById(id);
+        window.getSelection().selectAllChildren(str);
+        document.execCommand("Copy")
+    }
+  </script>
+
+
+  <script>
+
+
+
+
+    var app21 = new Vue({
+      el:"#app21",
+      data:{
+            message0: "",
+            message1: "",
+            message2: "",
+            message3: "",
+            message4: "",
+            message5: "",
+            message6: "",
+            message7: "",
+            message8: "",
+            message9: "",
+      }
+    });
+
+    var app20 = new Vue({
+        el:'.app20',
+        data:{
+            dataArray:['Leo','Perter','Harry'],
+						selected:''
+        }
+    });
+
+    var data =[
+      { title: "羊奶_家庭號_大瓶",  price: 130,  amount:0 },
+      { title: "羊奶_家庭號_中瓶",  price: 70,  amount:0 }, 
+      { title: "羊奶_試飲包",      price:  0,  amount:0 }, 
+      { title: "羊奶起司_大_迷迭香",  price: 100,  amount:0 }, 
+      { title: "羊奶起司_大_橘子皮",  price: 100,  amount:0 }, 
+      { title: "羊奶起司_小_迷迭香",  price: 40,  amount:0 }, 
+      { title: "羊奶起司_小_橘子皮",  price: 40,  amount:0 }, 
+      { title: "羊奶冰淇淋_小_香草",  price: 35,  amount:0 }, 
+      { title: "羊奶冰淇淋_小_半糖奶茶",  price: 35,  amount:0 }, 
+      { title: "羊奶冰淇淋_小_蔓越莓",  price: 35,  amount:0 }, 
+      { title: "羊奶冰淇淋_小_葡萄",  price: 35,  amount:0 }];
+
+  var vm = new Vue({
+    el:"#cart",
+    data:{
+      foods: data
+    },
+    computed:{
+      total: function(){
+        var sum=0;
+        for(var i in this.foods){
+          sum+=this.foods[i].price * this.foods[i].amount;
+        }
+        return sum;
+      }
+    }
+  })
+</script> 
+
+ 
+</html>
+
+
+

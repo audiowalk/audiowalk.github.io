@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue Component</title>
+    <link href="vueComponent.css" rel="stylesheet" type="text/css">
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+    <style>
+        .wrapper {
+            display: flex;
+            width: 700px;
+            margin: auto;
+        }
+
+        .wrapper .selectDiv {
+            width: 300px;
+            height: 270px;
+            border: black 1px solid;
+            margin: 10px auto 20px auto;
+        }
+
+        .wrapper .selectDiv .icon {
+            text-align: center;
+        }
+
+        .wrapper .selectDiv .icon img {
+            width: 150px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper" id="app">
+        <div class="selectDiv">
+            <dropdownmenu
+                :items="state.selectData.system"
+                @dropdownmenu-change="state.selectedData.system = $event + '.png'">
+            </dropdownmenu>
+            <div class="icon">
+                <img
+                    v-bind:src="'images/' + state.selectedData.system"
+                    v-if="state.selectedData.system !== null">
+            </div>
+        </div>
+        <div class="selectDiv">
+            <dropdownmenu
+                :items="state.selectData.provider"
+                @dropdownmenu-change="state.selectedData.provider = $event + '.png'">
+            </dropdownmenu>
+            <div class="icon">
+                <img
+                    v-bind:src="'images/' + state.selectedData.provider"
+                    v-if="state.selectedData.provider !== null">
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    const { reactive, onBeforeMount } = Vue;
+    const app = {
+        setup(){
+            const state = reactive({
+                selectData: {
+                    system: null,
+                    provider: null,
+                },
+                selectedData: {
+                    system: null,
+                    provider: null,
+                }
+            })
+            onBeforeMount(() => {
+                axios.get("static/vueComponent.json").then((response) => {
+                    state.selectData = response.data;
+                }).catch(function (response) {
+                    console.log(response);
+                })
+            })
+            return { state }
+        }
+    }
+    const myVue = Vue.createApp(app);
+    
+    myVue.component("dropdownmenu", {
+        props: ['items'],
+        template: `
+                    <div class="section">
+                        <div class="select">
+                            <select :name="items" @change="dataChange">
+                                <option 
+                                    v-for="item in items"
+                                    :value="item.value"
+                                    :disabled="item.disabled"
+                                    :selected="item.default"
+                                    @change="dataChange">
+                                    {{ item.title }}</option>
+                            </select>
+                        </div>
+                    </div>
+                `,
+        setup(props, target){
+            function dataChange(){
+                target.emit('dropdownmenu-change', event.target.value);
+            }
+            return{ dataChange }
+        },
+    })
+    myVue.mount("#app");
+</script>

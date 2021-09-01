@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    
+    <link rel="icon" type="image/png" href="assets/img/favicon.png"/>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+
+    <title>小工具選擇</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>  
+  </head>
+ 
+
+    <body class="flex flex-col items-center justify-center w-screen min-h-screen p-2">
+        <!-- Resice the preview panel to check the responsiveness -->
+    
+        <!-- Component Start -->
+        <div class="grid xl:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-2 xl:max-w-6xl max-w-4xl">
+            <!-- Tile 1 -->
+            <div class="flex bg-gray-200 rounded-lg p-4 m-2">
+                <div class="w-24 bg-gray-400 rounded-lg"></div>
+                <div class="flex flex-col items-start ml-4">
+                    <h4 class="text-xl font-semibold">小工具-1</h4></h4>
+                    <p class="text-sm">弓箭保齡球計分器</p> 
+                    <button class="p-2 leading-none rounded font-medium mt-3 bg-blue-400 text-blue-100 text-xs uppercase"
+                            onclick="window.location.href='/bowl_CNT/stander_4.html'" >Click Here</button>
+                </div>
+            </div>
+            <!-- Tile 2 -->
+            <div class="flex bg-gray-200 rounded-lg p-4 m-2">
+                <div class="w-24 bg-gray-400 rounded-lg"></div>
+                <div class="flex flex-col items-start ml-4">
+                    <h4 class="text-xl font-semibold">小工具-2</h4>
+                    <p class="text-sm">功能尚未啟用</p>
+                    <!-- <a class="p-2 leading-none rounded font-medium mt-3 bg-gray-400 text-xs uppercase" href="#">Click Here</a> -->
+                    <button class="p-2 leading-none rounded font-medium mt-3 bg-gray-400 text-xs uppercase"
+                            onclick="window.location.href='/bowl_CNT/stander_2.html'" >Click Here</button>
+                </div>
+            </div>
+            <!-- Tile 3 -->
+            <div class="flex bg-gray-200 rounded-lg p-4 m-2">
+                <div class="w-24 bg-gray-400 rounded-lg"></div>
+                <div class="flex flex-col items-start ml-4">
+                    <h4 class="text-xl font-semibold">小工具-3</h4>
+                    <p class="text-sm">功能尚未啟用</p> 
+                    <button  class="p-2 leading-none rounded font-medium mt-3 bg-gray-400 text-xs uppercase" 
+                             onclick="window.location.href='/bowl_CNT/stander_3.html'" >Click Here</button>
+                </div>
+            </div>
+             <!-- Tile 4 -->
+             <!-- <div class="flex bg-gray-200 rounded-lg p-4 m-2">
+                <div class="w-64 bg-gray-400 rounded-lg"></div>
+                <div class="flex flex-col items-start ml-4">
+                    <h4 class="text-xl font-semibold">小工具-4</h4>
+                    <p class="text-sm">功能尚未啟用</p>
+                    <!-- <a class="p-2 leading-none rounded font-medium mt-3 bg-gray-400 text-xs uppercase" href="#">Click Here</a> -->
+                    <!-- <button class="p-2 leading-none rounded font-medium mt-3 bg-gray-400 text-xs uppercase"
+                            onclick="window.location.href='/bowl_CNT/stander_4.html'" >Click Here</button>
+                </div> --> 
+            <!-- </div> -->
+        <!-- </div> -->
+        <!-- Component End  -->
+    
+    </body>
+
+
+      <!-- <div class="app20">
+        <select v-model="select">
+            <option disabled>請選擇</option>
+            <option v-for="item in dataArray" :value="item">{{item}}</option>
+        </select>
+      </div>
+  </body>
+      <script>
+        var app20 = new Vue({
+            el:'.app20',
+            data:{
+                dataArray:['Leo','Perter','Harry'],
+                selected:''
+            }
+        });
+    </script> -->
+
+<!-- 
+    <div id='app17'>
+      一般寫法:
+      <button @click="counter+=1">{{counter}}</button>
+      <button @click="counter+=1">{{counter}}</button>
+      元件寫法：
+      <counter></counter>
+      <counter></counter>
+    </div>
+
+    <script>
+
+      //  這是方法 1 -SS
+      
+      Vue.component('counter',{
+          data:function(){
+              return{
+                  counter: 0
+              } 
+          },
+          template:`
+          <button @click="counter+=1">{{counter}}</button>
+          `
+      });
+      var app117 = new Vue({
+          el: '#app17',
+          data:{
+              counter: 0
+          }
+      })
+      </script> -->
+
+
+</html>
