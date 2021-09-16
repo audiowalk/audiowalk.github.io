@@ -1,0 +1,491 @@
+<!DOCTYPE html> 
+<html>
+<head>
+<meta charset=utf-8 />
+<title>搜尋座標</title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+
+    <!--    font-awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!--    w3css-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3pro.css">
+
+    <script src='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js'></script>
+    <link href='https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css' rel='stylesheet' />
+
+
+    <script src="{% static 'js/Leaflet.Control.Custom.js' %}"></script>
+    <script src="{% static 'js/sMap_t0310.js' %}"></script>
+    <link href="{% static 'css/sMap_t0310.css' %}" rel='stylesheet' />
+    <link href="{% static 'css/Player_ctr.css' %}" rel='stylesheet' />
+    <link href="{% static 'css/List_fav_v1.css' %}" rel='stylesheet' />
+
+        <style>
+            html,body { margin: 0; padding: 0; width: 375px; }
+                #map {
+                        position: absolute; top: 0vh;
+                        width : 100vw;
+                        height: 104vh;
+                        z-index:-1;
+                      }
+                      .star {
+                          font-size: 1.5em;
+                      }
+        </style>
+        <style>
+            @font-face {
+                font-family: handwritten;
+                src: url('{% static "DK Cool Crayon.ttf"%}')
+            }
+            .bbbb{
+                background-image: url('{% static "img/ui_Export/runPage_Player_v1.png" %}');
+                background-repeat: no-repeat;
+                background-size: contain;
+                /* margin: 10px; */
+                width: 90vw;
+                height: 50vh;
+                position: relative;
+                bottom: -19vh;
+                left: 6vw;
+            }
+            .bxs{   font-family: 汉仪新蒂手札体;
+                src: url('{% static "fonts/HanyiSentyJournal.ttf"%}')}
+
+            .fuc_BD_Mode1{
+                    background-repeat: no-repeat;
+                    background-size: 90%;
+                    height: 100vh;
+                    position: relative;
+                    top: 7vh;
+                    left: 6vw;
+            }
+
+            .fuc_BD_Mode2{
+                background-repeat: no-repeat;
+                background-size: contain;
+                height: 101vh;
+                position: relative;
+                top: 1vh;
+                left: 4vw;
+            }
+
+            .fuc_BD_Mode3{
+                background-repeat: no-repeat;
+                background-size: contain;
+                height: 101vh;
+                position: relative;
+                top: -3vh;
+                left: -1vw;
+            }
+
+
+            .txt_Location{
+                    font-family: 汉仪新蒂手札体;
+                    position: relative;
+                    top: 22vh;
+                    left: 24vw;
+                    font-size: 1.6rem;
+            }
+
+            .btn_nbrLocation{
+                    border: none;
+                    display: inline-block;
+                    padding: 0px 8px;
+                    vertical-align: middle;
+                    overflow: hidden;
+                    text-decoration: none;
+                    color: inherit;
+                    background-color: inherit;
+                    text-align: center;
+                    cursor: pointer;
+                    white-space: nowrap;
+            }
+
+            .ctr_HD1_sub{ background-image: url('{% static "img/ui_Export/rP_HD1_sub_v1.png" %}'); }
+            .ctr_HD3{ background-image: url('{% static "img/ui_Export/rP_HD3_v1.png" %}'); }
+            .ctr_FT1{ background-image: url('{% static "img/ui_Export/runPage_NbList_v1.png" %}'); }
+            .ctr_FT3{ background-image: url('{% static "img/ui_Export/runPage_NbList_v1.png" %}'); }
+
+
+            .fLIST-ctn{
+                position: relative;
+                margin-top: 25vh;
+                margin-left: 11vw;
+            }
+            .flist-ctn{
+               padding-bottom: 20px;
+            }
+            .flist-track-ctn > div {
+                margin: 10px;
+            }
+
+            .bg-pxListitem{ background-image: url('{% static "img/ui_Export/runPage_PxListitem_v1.png" %}'); }
+            .bg-favListitem{ background-image: url('{% static "img/ui_Export/runPage_Favoritesitem_v1.png" %}'); }
+            .bg-nbrList{ background-image: url('{% static "img/ui_Export/runPage_NbList_v1.png" %}'); }
+            .bg-nbrListitem{ background-image: url('{% static "img/ui_Export/runPage_asBtn_Whereami_v1.png" %}'); }
+
+
+            .flist-track-ctn{
+              display: list-item;
+              background-image: url('{% static "img/ui_Export/runPage_PxListitem_v1.png" %}');
+              background-color: #464646;
+              background-size: contain;
+              background-repeat: no-repeat;
+
+              font-family: 汉仪新蒂手札体;
+              font-size: 1.6rem;
+              height: 139px;
+
+              border-radius: 5px;
+              cursor: pointer;
+            }
+
+            .flist-info-track,.flist-duration{
+              padding-top: 7px;
+              padding-bottom: 7px;
+              color: #e9cc95;
+              font-size: 14px;
+              pointer-events: none;
+            }
+        </style>
+
+
+        <style>
+                .player-ctn{
+                  border-radius: 15px;
+
+                  background-color: #373737;
+                  margin:auto;
+                  margin-top: 100px;
+                }
+
+                .playlist-track-ctn{
+                  display: flex;
+                  background-color: #464646;
+                  margin-top: 3px;
+                  border-radius: 5px;
+                  cursor: pointer;
+                }
+                .playlist-track-ctn:last-child{
+                  /*border: 1px solid #ffc266; */
+                }
+
+                .playlist-track-ctn > div{
+                  margin:10px;
+                }
+                .playlist-info-track{
+                  width: 80%;
+                }
+                .playlist-info-track,.playlist-duration{
+                  padding-top: 7px;
+                  padding-bottom: 7px;
+                  color: #e9cc95;
+                  font-size: 14px;
+                  pointer-events: none;
+                }
+        </style>
+
+        <style>
+            .pxLIST-CTN {
+                position: absolute;
+                width: 600px;
+                top: 30px;
+                display: flex;
+                flex-direction: column;
+            }
+        </style>
+
+
+    </head>
+    <body id="bd_id001">
+
+            <div class="w3-cell-row ">
+                <div id="map"></div>
+            </div>
+
+
+
+            <script>
+
+            // 設定地圖顯示內容 
+
+                L.mapbox.accessToken = 'pk.eyJ1Ijoiczk5MjEzMTYiLCJhIjoiY2tqbzJmd2x0MGl3bzJycHJ4YWZkNmNybiJ9.mhK4o-eCYqLs0gFsDjC-tQ';
+
+                var mapboxTiles = L.tileLayer('https://api.mapbox.com/styles/v1/s9921316/ckljcjp7l0sa217mnnn93u0qh/tiles/{z}/{x}/{y}?access_token=' + L.mapbox.accessToken, {
+                       attribution: '© <a href="https://www.mapbox.com/feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+                       tileSize: 512,
+                       zoomOffset: -1
+                });
+
+
+                var popup = L.popup();
+                var map = L.map('map')
+                  .addLayer(mapboxTiles)
+                  .setView([22.78868, 120.29159], 10);
+
+
+
+                map.on('click', onMapClick)
+
+                function onMapClick(e) {
+
+                     var Lat =e.latlng.lat ;
+                     var Lng =e.latlng.lng ;
+                        popup.setLatLng(e.latlng)
+                        .setContent("Here is [ " + Lat.toString() + "," + Lng.toString() + "]")
+                        .openOn(map);
+
+                }
+                L.control.scale().addTo(map);
+ 
+
+
+            </script>
+
+    <!--主要功能開啟狀態-->
+    <script>
+
+
+
+        function randomQuote(index){ document.getElementById("display_pin_memo").innerHTML = 'Here'+10+index; }
+
+        function ctrlMainFunc_mdf(func_Nanme,indexx) {
+          var i;
+
+          var x = document.getElementsByClassName("mainFunc");
+          for (i = 0; i < x.length; i++) {
+            x[i].style.displayd = "none";
+          }
+          document.getElementById(func_Nanme).style.display = "block";
+
+
+        var ar = document.querySelector('#pxList-1');
+            ar.dataset.indexPx // "12314"
+
+         document.getElementById("display_pin_memo").innerHTML = Px_Dataa[indexx].memo;
+
+         var aar = document.querySelector('#pxList-'+indexx);
+            aar.dataset.indexPx // "12314"
+         document.getElementById("display_pin_memo").innerHTML = 12 + ar.dataset.indexPx + arr.dataset.indexPx;
+        }
+
+        function ctrlMainFunc_mdf2(func_Nanme,index_pk) {
+          var i;
+          var x = document.getElementsByClassName("mainFunc");
+          for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+          }
+          document.getElementById(func_Nanme).style.display = "block";
+          console.log(index_pk);
+
+        }
+
+
+        function ctrlMainFunc(func_Nanme) {
+          var i;
+          var x = document.getElementsByClassName("mainFunc");
+          for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+          }
+          document.getElementById(func_Nanme).style.display = "block";
+        }
+
+        function ctrlHD1_Func(func_Nanme) {
+            Px_ON('pxCNT_id001');
+            for (var i = 0; i < Px_Dataa.length; i++)
+            { createPxItem(i,Px_Dataa[i].Path_Name,Px_Dataa[i].Goe_N,Px_Dataa[i].Goe_W ); }
+        }
+
+        function Px_Note(func_Nanme) {
+            ctrlMainFunc('Close');
+            ctrlMainFunc('FuncHD1_sub');
+        }
+
+        function build_favCNT() {
+            var track = document.createElement('div');
+            trackItem.setAttribute("class", "fav-ctn");
+            trackItem.setAttribute("id", "favCNT");
+            document.querySelector("#bd_id001").appendChild(track);
+
+            var trackItem = document.createElement('div');
+            trackItem.setAttribute("class", "playlist-ctn");
+            trackItem.setAttribute("id", "favList_id001");
+            document.querySelector("#favCNT").appendChild(trackItem);
+        }
+
+        function bx() {
+            var track = document.createElement('div');
+            trackItem.setAttribute("class", "fav-ctn");
+            trackItem.setAttribute("id", "favCNT");
+            document.querySelector("#bd_id001").append(track);
+        }
+
+        function Px_OFF(func_Nanme) {
+            document.getElementById(func_Nanme).style.display = "none";
+        }
+
+        function Px_ON(func_Nanme) {
+            document.getElementById(func_Nanme).style.display = "block";
+        }
+
+
+        function ctrlHD1_mdfFunc(){
+               Px_OFF('FuncFT3');
+               ctrlHD1_Func('FuncHD1');
+        }
+
+        function ctrlHD2_Func(func_Nanme) {
+             Px_OFF('pxCNT_id001');
+             ctrlMainFunc('Close');
+             Px_OFF('FuncFT1');
+        }
+
+        function ctrlHD3_Func(func_Nanme) {
+             Px_OFF('pxCNT_id001');
+             ctrlMainFunc('FuncHD3');
+             for (var i = 0; i < Fav_Data.length; i++)
+             {   createFavItem(i,Fav_Data[i].Fav_ID);  }
+        }
+
+        function ctrlFT3_Func(func_Nanme) {
+             Px_OFF('pxCNT_id001');
+             Px_ON('FuncFT3');
+             for (var i = 0; i < Nbr_Data.length; i++)
+             {   createNbrItem(i,Nbr_Data[i].Name_ID);  } 
+
+        }
+
+
+    function xxx() {
+    alert("Hi");getLocation();
+ }
+
+
+        function FLY2here(Lat,Lng) {
+             map.flyTo([Lat, Lng], 18,
+             {
+                 animate: true,
+                 duration: 2 // in seconds
+             });
+        }
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    alert("Geolocation is not supported by this browser.");
+  }
+}
+
+function showPosition(position) {
+  alert("Latitude: " + position.coords.latitude +
+  "Longitude: " + position.coords.longitude);
+
+  FLY2here(position.coords.latitude,position.coords.longitude);
+  L.marker([position.coords.latitude,position.coords.longitude], {icon: Current_Location}).addTo(map);
+}
+
+
+    </script>
+
+
+    <script>
+      function createNbrItem(index,name){
+
+        var vv =  "favList-"+(Nbr_Data.length-1).toString();
+        console.log( vv  );
+
+        if( document.getElementById(vv) == null )
+        {
+                var trackItem = document.createElement('div');
+                trackItem.setAttribute("class", "bg-nbrListitem Nbr_card");
+                trackItem.setAttribute("onclick","ctrlMainFunc('FuncPlayer')");
+                trackItem.setAttribute("id", "nbrList-"+index);
+                trackItem.setAttribute("data-index", index);
+                document.querySelector("#FuncFT3_CNT").appendChild(trackItem);
+
+                var t_BG = document.createElement('image');
+                t_BG.setAttribute("class", "bg-nbrListitem");
+                document.querySelector("#nbrList-"+index).appendChild(t_BG);
+
+                var trackInfoItem = document.createElement('div');
+                trackInfoItem.setAttribute("class", "nbrlist-info-track nbr_title");
+                trackInfoItem.innerHTML = name
+                document.querySelector("#nbrList-"+index).appendChild(trackInfoItem);    }
+        }
+var Nbr_Data = sMap_file_List;
+
+ 
+    </script>
+
+
+
+    <script src="{% static 'js/loadData_t0311.js' %}"></script>
+
+    <!--  createPxItem 功能狀態-->
+    <script>
+      function createPxItem(index,name,duration,duration_W){
+
+        var vv =  "pxList-"+(Px_Dataa.length-1).toString();
+        console.log( vv  );
+
+        if( document.getElementById(vv) == null )
+        {
+            var trackItem = document.createElement('div');
+            trackItem.setAttribute("class", "bg-pxListitem Px_card");
+            trackItem.setAttribute("onclick","ctrlMainFunc_mdf('FuncHD1_sub',"+index+")");
+            trackItem.setAttribute("id", "pxList-"+index);
+            trackItem.setAttribute("data-index-Px", index);
+            document.querySelector("#pxList_id001").appendChild(trackItem);
+
+            var trackInfoItem = document.createElement('div');
+            trackInfoItem.setAttribute("class", "Px_title");
+            trackInfoItem.innerHTML = name
+            document.querySelector("#pxList-"+index).appendChild(trackInfoItem);    }
+        }
+ 
+        console.log(  Px_Dataa );
+ 
+    </script>
+
+    <!--  createPxItem 功能狀態-->
+    <script>
+      function createFavItem(index,name){
+
+        var vv =  "favList-"+(Fav_Data.length-1).toString();
+        console.log( vv  );
+
+        if( document.getElementById(vv) == null )
+        {
+                var trackItem = document.createElement('div');
+                trackItem.setAttribute("class", "bg-favListitem Fav_card");
+                trackItem.setAttribute("onclick","ctrlMainFunc('FuncPlayer')");
+                trackItem.setAttribute("id", "favList-"+index);
+                trackItem.setAttribute("data-index", index);
+                document.querySelector("#FuncHD3_CNT").appendChild(trackItem);
+
+                var trackInfoItem = document.createElement('div');
+                trackInfoItem.setAttribute("class", "favlist-info-track Fav_title");
+                trackInfoItem.innerHTML = name
+                document.querySelector("#favList-"+index).appendChild(trackInfoItem);    }
+        }
+
+      var Fav_Data = [  { Fav_ID: '地點(1)'  ,Fav_L: [22.78868, 120.29159] },
+                        { Fav_ID: '地點(2)'  ,Fav_L: [22.78868, 120.29159] },
+                        { Fav_ID: '地點(4)'  ,Fav_L: [22.78868, 120.29159] },
+                        { Fav_ID: '地點(5)'  ,Fav_L: [22.78868, 120.29159] },
+                        { Fav_ID: '地點(3)'  ,Fav_L: [22.78868, 120.29159] },
+                        { Fav_ID: '地點(6)'  ,Fav_L: [22.78868, 120.29159] },  ];
+ 
+    </script>
+
+    <script
+      src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+      integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+      crossorigin=""
+    ></script>
+</body>
+</html>

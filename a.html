@@ -178,7 +178,7 @@
         const msgRef = db.ref('messages'); 
 
         msgRef.on("value", (snapshot) => { // 把資料庫的數據丟給 chatroom 這個陣列 再到 DOM 上用 v-for 渲染資料
-                 console.log(snapshot.val());
+                //  console.log(snapshot.val());
             });
  
 

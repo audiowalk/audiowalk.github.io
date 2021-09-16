@@ -324,266 +324,11 @@
                         </button>
                     </div>
             </div> 
-    <script>
+
+            <script src="src/MapTools/mapbox.js"  ></script>
+            <script src="src/MapTools/popUP.js"  ></script>
+            <script src="src/MapTools/mapboxsupTools.js"  ></script>
  
-
-function useFullScreen(){
-            openModal('#firstinfo_overlay','#first_info',false);
-            document.documentElement.requestFullscreen();   }
- 
-        const first_info         = document.querySelector('#first_info');
-
-function openModal (m_overlay,c,value){ 
-const modal_overlay = document.querySelector(m_overlay);
-        const modal         = document.querySelector(c);
-        const modalCl = modal.classList
-        const overlayCl = modal_overlay
-
-        if(value){
-        overlayCl.classList.remove('hidden')
-        setTimeout(() => {
-            modalCl.remove('opacity-0')
-            modalCl.remove('-translate-y-full')
-            modalCl.remove('scale-150')
-        }, 100);
-        } else {
-        modalCl.add('-translate-y-full')
-        setTimeout(() => {
-            modalCl.add('opacity-0')
-            modalCl.add('scale-150')
-        }, 100);
-        setTimeout(() => overlayCl.classList.add('hidden'), 300);
-        }
-    } 
-    openModal('#firstinfo_overlay','#first_info',true)
- 
-
-        function randomQuote(index){ document.getElementById("display_pin_memo").innerHTML = 'Here'+10+index; }
-
-        function ctrlMainFunc(func_Nanme) {
-          var i;
-          var x = document.getElementsByClassName("mainFunc");
-          for (i = 0; i < x.length; i++) {
-            x[i].style.display = "none";
-          }
-          document.getElementById(func_Nanme).style.display = "block";
-        }
-
-
-        function CTRHD1()
-        {
-            alert('查詢最近路線');
-            Px_Dataa = [  { Path_Name: '西子灣漫遊',Goe_N: [22.78868, 120.29159] },
-                          { Path_Name: '寶藏巖散步',Goe_N: [22.78868, 120.29159] },
-                          { Path_Name: '岡山行旅'  ,Goe_N: [22.78868, 120.29159] } ]
-            for (var i = 0; i < Px_Dataa.length; i++)
-            {
-                createPxItem(i,Px_Dataa[i].Path_Name,Px_Dataa[i].Goe_N,Px_Dataa[i].Goe_W );
-            }
-        }
-
-        function createPxItem(index,name,duration,duration_W)
-        {
-                var vv =  "pxList-"+(Px_Dataa.length-1).toString();
-                console.log( vv  );
-                if( document.getElementById(vv) == null )
-                {
-                    var trackItem = document.createElement('div');
-                    trackItem.setAttribute("class", "bg-pxListitem Px_card");
-                    trackItem.setAttribute("onclick","ctrlMainFunc_mdf('FuncHD1_sub',"+index+")");
-                    trackItem.setAttribute("id", "pxList-"+index);
-                    trackItem.setAttribute("data-index-Px", index);
-                    document.querySelector("#pxList_id001").appendChild(trackItem);
-
-                    var trackInfoItem = document.createElement('div');
-                    trackInfoItem.setAttribute("class", "Px_title limt");
-                    trackInfoItem.innerHTML = name
-                    document.querySelector("#pxList-"+index).appendChild(trackInfoItem);
-                }
-        }
-
-
-
-        function ctrlMainFunc_mdf(func_Nanme,indexx) {
-          var i;
-
-          var x = document.getElementsByClassName("mainFunc");
-          for (i = 0; i < x.length; i++) {
-            x[i].style.displayd = "none";
-          }
-          document.getElementById(func_Nanme).style.display ="block";
- 
-                now_Px_Name = Px_Dataa[indexx].Path_Name;
-                now_Px_goe_n = Px_Dataa[indexx].Goe_N;
-                now_Px_goe_w = Px_Dataa[indexx].Goe_W; 
-            var ar = document.querySelector('#pxList-1');
-                ar.dataset.indexPx // "12314"
-
-                document.getElementById("display_pin_memo").innerHTML = Px_Dataa[indexx].memo;
-        }
-
-        function ctrlMainFunc_mdf2(func_Nanme,index_pk) {
-          var i;
-          var x = document.getElementsByClassName("mainFunc");
-          for (i = 0; i < x.length; i++) {
-            x[i].style.display = "none";
-          }
-          document.getElementById(func_Nanme).style.display = "block";
-          console.log(index_pk);
-        }
- 
-        function ctrlHD1_mdfFunc(){
-               Px_OFF('FuncFT3');
-               ctrlHD1_Func('FuncHD1');
-        }
-
-        function ctrlHD1_Func(func_Nanme) {
-            Px_ON('pxCNT_id001');
-            for (var i = 0; i < Px_Dataa.length; i++)
-            { createPxItem(i,Px_Dataa[i].Path_Name,Px_Dataa[i].Goe_N,Px_Dataa[i].Goe_W ); }
-        }
-
-        function Px_OFF(func_Nanme) {
-            document.getElementById(func_Nanme).style.display = "none";
-        }
-
-        function Px_ON(func_Nanme) {
-            document.getElementById(func_Nanme).style.display = "block";
-        } 
-
-        function Px_Note(func_Nanme) {
-            ctrlMainFunc('Close');
-            ctrlMainFunc('FuncHD1_sub');
-        }
-
-        function build_favCNT() {
-            var track = document.createElement('div');
-            trackItem.setAttribute("class", "fav-ctn");
-            trackItem.setAttribute("id", "favCNT");
-            document.querySelector("#bd_id001").appendChild(track);
-
-            var trackItem = document.createElement('div');
-            trackItem.setAttribute("class", "playlist-ctn");
-            trackItem.setAttribute("id", "favList_id001");
-            document.querySelector("#favCNT").appendChild(trackItem);
-        }
-
-        function bx() {
-            var track = document.createElement('div');
-            trackItem.setAttribute("class", "fav-ctn");
-            trackItem.setAttribute("id", "favCNT");
-            document.querySelector("#bd_id001").append(track);
-        }
-
-
-
-
-
-
-        function ctrlHD2_Func(func_Nanme) {
-
-        try{ rr_nbr();rr_fav() }
-        catch{}
-             Px_OFF('pxCNT_id001');
-             ctrlMainFunc('Close');
-             Px_OFF('FuncFT1');
-        }
-
-        function ctrlHD3_Func(func_Nanme) {
-             Px_OFF('pxCNT_id001');
-             ctrlMainFunc('FuncHD3');
-
-             for (var i = 0; i < Fav_Dataa.length; i++)
-             {   createFavItem(i,Fav_Dataa[i].whichmb_pk);  }
-        }
-
-
-        function ctrlFT3_Func(func_Nanme) {
-             Px_OFF('pxCNT_id001');
-             Px_ON('FuncFT3');
-             for (var i = 0; i < Nbr_Data.length; i++) 
-             {   createNbrItem(i,Nbr_Data[i].pk,Nbr_Data[i].fileType,Nbr_Data[i].Name_ID,Nbr_Data[i].Audio_file,Nbr_Data[i].Trip_Path,Nbr_Data[i].memo);  }
- 
- 
-
-        }
-
-
-
-
-        function FlyTHERE_mdf()
-        {
-            FLY3here(now_Px_goe_n,now_Px_goe_w,17);
-            ctrlHD2_Func('FuncHD3');
-        }
-
-        function FLY2THERE()
-        {
-        pauseAudio(); 
-        FLY2here(now_goe_n,now_goe_w);
-        ctrlMainFunc('Close');
-
-        }
-
-
-
-        function xxx() { getLocation(); }
-
-        function FLY3here(Lat,Lng,zooom) {
-             map.flyTo([Lat, Lng], zooom,
-             {
-                 animate: true,
-                 duration: 2 // in seconds
-             });
-        }
-
-
-        function FLY2here(Lat,Lng) {
-             map.flyTo([Lat, Lng], 18,
-             {
-                 animate: true,
-                 duration: 2 // in seconds
-             });
-        }
-
-        function getLocation() {
-          if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition);
-          } else {
-            alert("Geolocation is not supported by this browser.");
-          }
-        }
-
-        function showPosition(position) { 
-
-          FLY2here(position.coords.latitude,position.coords.longitude);
-          L.marker([position.coords.latitude,position.coords.longitude], {icon: Current_Location}).addTo(map);
-        }
-
-
-
-        function rr_nbr() {
-            for (var i = 0; i < Nbr_Data.length; i++)
-             {
-                var xd ='nbrList-' +i;
-                removeElement(xd);
-             } 
-        }
-
-        function rr_fav() {
-            for (var i = 0; i < Nbr_Data.length; i++)
-             {
-                var xd ='favList-' +i;
-                removeElement(xd);
-             } 
-        }
-
-        function removeElement(id) {
-            var elem = document.getElementById(id);
-            return elem.parentNode.removeChild(elem);
-        }
-    </script>
-
 
     <script>
             var now_goe_w = '';
@@ -595,17 +340,17 @@ const modal_overlay = document.querySelector(m_overlay);
             var now_Tpath = '';
 
 
-            // 設定地圖顯示內容 
-                L.mapbox.accessToken = 'pk.eyJ1Ijoiczk5MjEzMTYiLCJhIjoiY2tqbzJmd2x0MGl3bzJycHJ4YWZkNmNybiJ9.mhK4o-eCYqLs0gFsDjC-tQ';
+            // // 設定地圖顯示內容 
+            //     L.mapbox.accessToken = 'pk.eyJ1Ijoiczk5MjEzMTYiLCJhIjoiY2tqbzJmd2x0MGl3bzJycHJ4YWZkNmNybiJ9.mhK4o-eCYqLs0gFsDjC-tQ';
 
-                var mapboxTiles = L.tileLayer('https://api.mapbox.com/styles/v1/s9921316/ckljcjp7l0sa217mnnn93u0qh/tiles/{z}/{x}/{y}?access_token=' + L.mapbox.accessToken, {
-                       attribution: '© <a href="https://www.mapbox.com/feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-                       tileSize: 512,
-                       zoomOffset: -1 });
+            //     var mapboxTiles = L.tileLayer('https://api.mapbox.com/styles/v1/s9921316/ckljcjp7l0sa217mnnn93u0qh/tiles/{z}/{x}/{y}?access_token=' + L.mapbox.accessToken, {
+            //            attribution: '© <a href="https://www.mapbox.com/feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            //            tileSize: 512,
+            //            zoomOffset: -1 });
 
-                var map = L.map('map')
-                  .addLayer(mapboxTiles)
-                  .setView([25.010383, 121.533350], 20);
+            //     var map = L.map('map')
+            //       .addLayer(mapboxTiles)
+            //       .setView([25.010383, 121.533350], 20);
 
                //-----  模擬資料  << 未來需要變動到，高雄地區的其他部分。
                   const data = [ { name: 'KS_樂活_m_4',local: [22.78836, 120.29181],Vlog:'https://www.youtube.com/embed/gdv-9YjfMUk' }, ];
@@ -644,53 +389,54 @@ const modal_overlay = document.querySelector(m_overlay);
                     shadowSize: [31, 35]
                   });
 
-              sMap_file_List.forEach(item => {
-                // 設定 icon 顯示金色，其餘則為黑色
+    //           sMap_file_List.forEach(item => {
+    //             // 設定 icon 顯示金色，其餘則為黑色
 
-                console.log("Here is :"+item.fileType);
-                let myIcon;
-                if (item.fileType == "voiceFile") {
-                    myIcon = voice_Icon;
-                }
-                else
-                {
-                    myIcon = audioIcon;
-                }
+    //             console.log("Here is :"+item.fileType);
+    //             let myIcon;
+    //             if (item.fileType == "voiceFile") {
+    //                 myIcon = voice_Icon;
+    //             }
+    //             else
+    //             {
+    //                 myIcon = audioIcon;
+    //             }
 
-                // 添加標記點
-                L.marker([item.Goe_N,item.Goe_W], {
-                          title: item.name,
-                          icon: myIcon,
-                          alt: item.pk })
-                .addTo(map)
-                .on('click', function(e) {
-                console.log(e.latlng);
-                var Lat =e.latlng.lat ;
-                var Lng =e.latlng.lng ;
+    //             // 添加標記點
+    //             L.marker([item.Goe_N,item.Goe_W], {
+    //                       title: item.name,
+    //                       icon: myIcon,
+    //                       alt: item.pk })
+    //             .addTo(map)
+    //             .on('click', function(e) {
+    //             console.log(e.latlng);
+                
+    //             var Lat =e.latlng.lat ;
+    //             var Lng =e.latlng.lng ;
 
-    var findLike = sMap_file_List.find(function(item, index, array){ return item.Goe_N === Lat && item.Goe_W === Lng ; });
-                   console.log('H = '+findLike.Name_ID);
-                   console.log('H = '+findLike.Audio_file);
-                   console.log('H = '+findLike.Trip_Path);
-                   console.log('Goe_N = '+findLike.Goe_N);
-                   console.log('Goe_W = '+findLike.Goe_W);
-                   now_goe_n = findLike.Goe_N;
-                   now_goe_w = findLike.Goe_W;
+    // var findLike = sMap_file_List.find(function(item, index, array){ return item.Goe_N === Lat && item.Goe_W === Lng ; });
+    //                console.log('H = '+findLike.Name_ID);
+    //                console.log('H = '+findLike.Audio_file);
+    //                console.log('H = '+findLike.Trip_Path);
+    //                console.log('Goe_N = '+findLike.Goe_N);
+    //                console.log('Goe_W = '+findLike.Goe_W);
+    //                now_goe_n = findLike.Goe_N;
+    //                now_goe_w = findLike.Goe_W;
 
-    var AudioFile ='media/'+findLike.Audio_file;
-                   console.log('HH = '+AudioFile);
+    // var AudioFile ='media/'+findLike.Audio_file;
+    //                console.log('HH = '+AudioFile);
 
-                   testVid=document.getElementById("testPlayer");
-                   testVid.src=AudioFile;
+    //                testVid=document.getElementById("testPlayer");
+    //                testVid.src=AudioFile;
 
-                   teid=document.getElementById("display_pin_memo_inPr");
-                   teid.innerHTML=findLike.Name_ID + " : " + findLike.memo;
+    //                teid=document.getElementById("display_pin_memo_inPr");
+    //                teid.innerHTML=findLike.Name_ID + " : " + findLike.memo;
 
-                   temp_T=document.getElementById("push_btn");
-                   temp_T.src='{% static "img/ui_Export/push_null.png" %}';
+    //                temp_T=document.getElementById("push_btn");
+    //                temp_T.src='{% static "img/ui_Export/push_null.png" %}';
 
-                   ctrlMainFunc_mdf2("FuncPlayer",AudioFile) });
-              });
+    //                ctrlMainFunc_mdf2("FuncPlayer",AudioFile) });
+    //           });
 
 
               var  xg = document.getElementById("testPlayer");
@@ -698,22 +444,7 @@ const modal_overlay = document.querySelector(m_overlay);
                           xg.play();
                           temp_T=document.getElementById("push_btn");
                           temp_T.src='{% static "img/ui_Export/push_p.png" %}';
-                    }
-
-                    function pauseAudio() {
-                          xg.pause();
-                          xg.currentTime = 0;
-                          temp_T=document.getElementById("push_btn");
-                          temp_T.src='{% static "img/ui_Export/push_s.png" %}';
-                    }
-
-                    function ctrlMainFunc_mddf() {
-                          xg.pause();
-                          xg.currentTime = 0;
-                          ctrlMainFunc('Close');
-                          temp_T=document.getElementById("push_btn");
-                          temp_T.src='{% static "img/ui_Export/push_null.png" %}';
-                    }
+                    } 
             </script>
 
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"

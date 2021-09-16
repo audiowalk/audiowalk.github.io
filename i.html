@@ -1,0 +1,288 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/vue@next"></script>
+
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+
+    <title>~Hso Hot~</title>
+
+    <style>
+
+.cc {
+  height: 100px;
+  width : 100px; 
+  background: url('static/UI/runPage_asBtn_LocationHere_v1.png');
+  background-size: 100px auto;
+}
+
+    </style>
+     
+
+</head>
+  
+        
+<body >  
+    <!-- <div id="app3">
+        <p>
+            <input type="text" v-model="state.number1"> + 
+            <input type="text" v-model="state.number2"> = {{ result() }}
+        </p>
+    </div> -->
+
+<!--
+    <div id="app2">
+        <p>Type: {{ framework.type }}</p>
+        <p>Framework: {{ framework.name }}</p>
+    </div>
+ 
+
+    <div id="app1">
+        <h3>Root Instance</h3> 
+        <my-component></my-component> 
+        <div v-for="item in messages" :key="item.key"></div>
+    </div> -->
+
+<!-- 
+    <div id="app">
+        <button class="btn btn-primary btn-sm" @click.prevent="audio.isPlaying ? pause(audio) : play(audio)" v-for="audio in audios" :key="audio.id">
+          {{ audio.isPlaying ? 'Pause' : 'Play' }} {{ audio.name }}
+        </button>
+      </div> -->
+
+      <div class="blog-post">
+        <h3>{{ title }}</h3>
+        <div v-html="content"></div>
+      </div>
+
+
+    <div id="app1"> 
+        <my-component></my-component>
+        <ul>
+            <li v-for="(item, index) in member" :key="index">
+                {{ item.name }}<br />
+                {{ item.mail }}<br />
+                <!-- <a @click.prevent= ppdlay(http://soundbible.com/mp3/airplane-takeoff_daniel_simion.mp3)>[p]</a> -->
+                
+            </li> 
+        </ul>
+
+        <ul>
+            <li v-for="(item, index) in posts" :key="index">
+                {{ item.id }}<br />
+                {{ item.title }}<br />
+                <!-- <a @click.prevent= ppdlay(http://soundbible.com/mp3/airplane-takeoff_daniel_simion.mp3)>[p]</a> -->
+                
+            </li> 
+        </ul>
+
+
+
+        
+
+        <div class="grid gap-2 grid-cols-3 mx-5">
+            <div v-for="item in fbData" :key="item.AudioDoc"> 
+                <!-- <button class="font-semibold text-red-50 bg-red-400 py-1 px-3 rounded-full" @click.prevent="show('hah')" v-for="audio in fbData" :key="audio.AudioDoc">
+                    here
+                  </button> -->
+                <!-- card -->
+                <div class="w-80 rounded-md cursor-pointer shadow-lg overflow-hidden hover:shadow-xl transform hover:scale-105 duration-500">
+                    <img src="https://picsum.photos/400/200 " alt="" />
+                    <div class="p-4 bg-white"> 
+                        <a class="text-sm font-semibold text-red-50 bg-red-400 py-2 px-3 mx-1 rounded-full">{{item.FileType}}</a>  
+                        <!-- <a class="text-sm font-semibold text-red-50 bg-red-400 py-1 px-3 rounded-full">{{item}}</a>   -->
+                        <!-- <spna class="text-sm font-semibold text-red-50 bg-red-400 mx-2 my-2 py-1 px-3  text-xs rounded-full">[ {{item.GeoN}} , {{item.GeoW}} ]</spna> -->
+                        
+                        <audio controls v-bind:src="item.FilePath">
+
+                        </audio>
+                        <img :src="imgPreUrl + 'img/logo.png'">
+                        <p class="mt-4 font-bold text-2xl">{{item.AudioName}}</p>
+                        <p class="mt-4 font-normal text-xs">{{item.AudioDoc}}</p>
+                        <a class="mt-4 font-normal text-xs">{{item.FilePath}}</a><br/>
+                        <a class="mt-4 font-normal text-xs text-gray-600 ">{{item.memo}}</a>
+                    </div>
+                </div> 
+
+                <!-- card -->
+                
+            </div> 
+        </div>  
+
+            <!-- <div class="min-h-screen bg-gray-100 flex justify-center items-center">
+                <div class="w-80 rounded-md cursor-pointer shadow-lg overflow-hidden hover:shadow-xl transform hover:scale-105 duration-500">
+                  <img src="https://images.unsplash.com/photo-1463320898484-cdee8141c787?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80" alt="" />
+                  <div class="p-4 bg-white">
+                    <spna class="text-sm font-semibold text-red-50 bg-red-400 py-1 px-3 rounded-full">{{item.FileType}}</spna>
+                    <spna class="text-sm font-semibold text-red-50 bg-red-400 py-1 px-3 rounded-full">[ {{item.GeoN}} , {{item.GeoW}} ]</spna>
+                    <h1 class="mt-4 font-bold text-2xl">{{item.AudioName}}</h1> 
+                    <h6 class="mt-4 font-bold text-2xl">{{item.AudioDoc}}</h6>
+                    <h6 class="mt-4 font-bold text-2xl">{{item.memo}}</h6>
+                  </div>
+                </div>
+              </div> -->
+
+<!-- 
+            FileType: 'audioIcon',   // 這是用戶輸入的訊息內容 
+            AudioName: '測試的內容',  // 這是用戶輸入的訊息內容 
+            AudioDoc: '第4次上傳，先這樣',   // 這是用戶輸入的訊息內容 
+            GeoN: '25.019759495623696',       // 這是用戶輸入的訊息內容 
+            GeoW: '121.53998752145173',       // 這是用戶輸入的訊息內容 
+            memo: --> 
+    </div>  
+    
+
+ 
+</body>
+</html>
+
+<!-- APP2 --> 
+<script src="src/MapTools/firebaseData.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/8.9.1/firebase-database.min.js"></script>
+       
+
+<script>  
+
+    firebase.initializeApp(firebaseConfig);  
+    const db = firebase.database();  
+    const msgRef = db.ref('sMap');  
+    const { reactivee } = Vue;
+    const app3 = {   
+        data () { 
+                  return {  fbData:[], 
+                            posts: [
+                                    { id: 1, title: 'My journey with Vue' },
+                                    { id: 2, title: 'Blogging with Vue' },
+                                    { id: 3, title: 'Why Vue is so fun' }
+                                    ], 
+                        } 
+                    },
+        component()
+        {
+            'blog-post', {
+                           props: ['title'],
+                           template: '<h3>{{ title }}</h3>'
+                         } ,
+
+                         'my-component', {
+                           text:'元件中 data 為函式',
+                           template: '<div>{{text}}</div>',
+                         } 
+        },
+         
+        created() 
+            {
+                        const t = this; 
+                        var ref = msgRef
+                        ref.once("value")
+                        .then(function(snapshot) {
+                            t.fbData = snapshot.val()
+                            console.log(t.fbData)
+                        })    
+            }, 
+    }
+    const myVue2 = Vue.createApp(app3).mount("#app1");
+
+
+   const App = new Vue({
+  el: '#app',
+  
+  data: {
+    audios: [
+      {
+        id: 'muscle-car',
+        name: 'Muscle Car',
+        file: new Audio('http://soundbible.com/mp3/muscle-car-daniel_simon.mp3'),
+        isPlaying: false
+      },
+      {
+        id: 'airplane-takeoff',
+        name: 'Airplane Takeoff',
+        file: new Audio('http://soundbible.com/mp3/airplane-takeoff_daniel_simion.mp3'),
+        isPlaying: false
+      }
+    ]
+  },
+  
+  methods: {
+    play (audio) {
+      audio.isPlaying = true;
+      audio.file.play();
+    },
+    
+    pause (audio) {
+      audio.isPlaying = false;
+      audio.file.pause();
+    }
+  }
+});
+</script> 
+ 
+
+<!-- //     const myVue = Vue.createApp(app); // 【 createApp() 】
+
+// myVue.component("vuebutton", {
+//     props: {
+//         title: {
+//             type: String,
+//             required: true,
+//         },
+//         start: {
+//             type: Number,
+//             default: 0,
+//         },
+//     }, 
+
+//     template: `<button @click="minus">{{ state.title }} 庫存 {{ state.start }} 件</button>`,
+//     setup(props, target){              // 【 setup() 】
+//         const state = reactive({
+//             title: props.title,
+//             start: props.start,
+//         })
+//         function minus(){
+//             if (state.start <= 0) {
+//                 state.start = 0;
+//             } else {
+//                 state.start--;
+//                 target.emit("vuebutton-click");  // 這邊的顯示內容是關鍵：：
+//                 }
+//             }
+//             return{ state, minus }
+//         },
+//     })
+//     myVue.mount("#app2");   // 【 mount() 】
+
+
+
+
+                        // togglePlaylist: function() {
+                        //     this.isPlaylistActive = !this.isPlaylistActive;
+                        // }, 
+                        // playAudio: function() {
+                        //     if (
+                        //         this.currentlyStopped == true &&
+                        //         this.currentSong + 1 == this.musicPlaylist.length
+                        //     ) {
+                        //         this.currentSong = 0;
+                        //         this.changeSong();
+                        //     }
+                        //     if (!this.currentlyPlaying) {
+                        //         this.getCurrentTimeEverySecond(true);
+                        //         this.currentlyPlaying = true;
+                        //         this.audio.play();
+                        //     } else {
+                        //         this.stopAudio();
+                        //     }
+                        //     this.currentlyStopped = false;
+                        // },
+                        // stopAudio: function() {
+                        //     this.audio.pause();
+                        //     this.currentlyPlaying = false;
+                        //     this.pausedMusic();
+                        // }, 
+
+-->

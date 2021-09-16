@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>這是什麼</title>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script> -->
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/vue@next"></script>
+
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+
+</head>
+<style>
+
+ 
+</style>
+<body> 
+
+
+  <div id="todo-list-app">
+    <ol>
+       <!--
+        现在我们为每个 todo-item 提供 todo 对象
+        todo 对象是变量，即其内容可以是动态的。
+        我们也需要为每个组件提供一个“key”，稍后再'
+        作详细解释。
+      -->
+      <todo-item
+        v-for="item in groceryList"
+        v-bind:todo="item"
+        v-bind:key="item.id" 
+        v-bind:src="item.url"
+      ></todo-item>
+
+      <div v-for="item in lists">
+        <a v-bind:text="item.text" ></a>
+        <!-- <img v-bind:src="item.img" class="h-20"> -->
+        <audio controls v-bind:src="item.flie">
+      </div>
+      
+    </ol>
+  </div>
+
+
+</body>
+</html> 
+
+
+<script>
+
+
+const TodoList = {
+  data() {
+    return {
+      
+      groceryList: [
+      { id: 0, text: 'Vegetables',flie: 'static/mp3/01學游泳.mp3',url:'../static/UI/BG_v2.png'},
+        { id: 1, text: 'Cheese' ,flie: 'static/mp3/15菜園.mp3',url:'../static/UI/runPage_Favoritesitem_v1.png'},
+        { id: 2, text: 'Whatever else humans are supposed to eat' ,flie: 'static/mp3/05山下的營舍.mp3',url:'../static/UI/runHD2_v1.png'}
+      ],
+      lists: [
+                { text: 'Vegetables',img : '../static/UI/BG_v2.png',flie:'static/mp3/01學游泳.mp3' },
+                { text: 'Cheese' ,img : '../static/UI/runPage_Favoritesitem_v1.png',flie: 'static/mp3/05山下的營舍.mp3' }, 
+            ]
+    }
+  }
+} 
+
+const app = Vue.createApp(TodoList) 
+
+      app.component('todo-item', {
+                                   props: ['todo'],
+                                   template: `<li> {{ todo.flie  }} ss ~{{ todo.text }} </li>   `
+                                 }) 
+      app.mount('#todo-list-app')
+ 
+</script>  
+
+
+
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/8.9.1/firebase-database.min.js"></script>
+<script src="src/MapTools/firebaseData.js"></script>     
+
+<script>
+
+       // Initialize Firebase
+       firebase.initializeApp(firebaseConfig);  
+       const db = firebase.database(); 
+
+</script>
+
+<script>
+  //   const Counter = {
+//   data() {
+//     return {
+//       counter:222
+//     }
+//   },
+//   mounted() {
+//     setInterval(() => {
+//       this.counter++
+//     }, 1000)
+//   }
+// } 
+// Vue.createApp(Counter).mount('#counter')
+
+// // here .... 
+
+// const EventHandling = {
+//   data() {
+//     return {
+//       message: 'Hello Vue.js!'
+//     }
+//   },
+//   methods: {
+//     reverseMessage() {
+//       this.message = this.message
+//         .split('')
+//         .reverse()
+//         .join('')
+//     }
+//   }
+// }
+
+// Vue.createApp(EventHandling).mount('#event-handling')
+
+// here .... 
+
+// const ListRendering = {
+//   data() {
+//     return {
+//       todos: [
+//         { text: 'Learn JavaScript' },
+//         { text: 'Learn Vue' },
+//         { text: 'Build something awesome' }
+//       ]
+//     }
+//   }
+// }
+
+// Vue.createApp(ListRendering).mount('#list-rendering')
+
+// here .... 
+</script>
